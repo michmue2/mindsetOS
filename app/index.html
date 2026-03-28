@@ -344,20 +344,6 @@ html, body {
   overflow: hidden;
 }
 
-.chapter-label {
-  position: absolute;
-  top: 8px;
-  left: 50%;
-  transform: translateX(-50%);
-  font-size: 10px;
-  letter-spacing: 0.1em;
-  text-transform: uppercase;
-  color: var(--text3);
-  white-space: nowrap;
-  max-width: 300px;
-  overflow: hidden;
-  text-overflow: ellipsis;
-}
 
 .card-ghost {
   position: absolute;
@@ -884,8 +870,7 @@ html, body {
     </div>
 
     <div class="card-stage" id="card-stage">
-      <div class="chapter-label" id="chapter-label"></div>
-      <div class="card-ghost ghost2" id="ghost2"></div>
+<div class="card-ghost ghost2" id="ghost2"></div>
       <div class="card-ghost" id="ghost1"></div>
 
       <div class="flashcard" id="flashcard">
@@ -1175,7 +1160,6 @@ function renderCard() {
   document.getElementById('study-archetype-name').textContent = archetype.name;
   document.getElementById('study-count').textContent = `${idx + 1} / ${total}`;
   document.getElementById('progress-fill').style.width = `${(idx / total) * 100}%`;
-  document.getElementById('chapter-label').textContent = card.chapter || '';
 
   document.getElementById('card-section').textContent = card.section || '';
   document.getElementById('card-principle').textContent = card.principle || '';
