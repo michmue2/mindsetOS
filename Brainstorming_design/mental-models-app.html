@@ -1,0 +1,1075 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+<title>Mental Models</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Lora:ital,wght@0,400;0,500;1,400&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet">
+<style>
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  :root {
+    --bg: #F7F5F0;
+    --surface: #FFFFFF;
+    --surface2: #F0EDE6;
+    --text: #1A1814;
+    --text2: #6B6760;
+    --text3: #A8A49E;
+    --accent: #2C2C2A;
+    --gold: #B8860B;
+    --gold-light: #F5EDD6;
+    --green: #2E7D52;
+    --green-light: #E8F5EE;
+    --red: #C0392B;
+    --red-light: #FDECEA;
+    --border: rgba(0,0,0,0.08);
+    --border2: rgba(0,0,0,0.14);
+    --shadow: 0 4px 24px rgba(0,0,0,0.08), 0 1px 4px rgba(0,0,0,0.04);
+    --shadow-lifted: 0 12px 40px rgba(0,0,0,0.14), 0 2px 8px rgba(0,0,0,0.06);
+    --radius: 20px;
+    --serif: 'Lora', Georgia, serif;
+    --sans: 'DM Sans', system-ui, sans-serif;
+    --trans: cubic-bezier(0.34, 1.56, 0.64, 1);
+    --ease: cubic-bezier(0.4, 0, 0.2, 1);
+  }
+
+  @media (prefers-color-scheme: dark) {
+    :root {
+      --bg: #141412;
+      --surface: #1E1D1A;
+      --surface2: #252420;
+      --text: #F0EDE6;
+      --text2: #9A9690;
+      --text3: #5A5750;
+      --accent: #F0EDE6;
+      --gold: #D4A820;
+      --gold-light: #2A2410;
+      --green: #4CAF7A;
+      --green-light: #0D2418;
+      --red: #E57373;
+      --red-light: #2A0E0E;
+      --border: rgba(255,255,255,0.07);
+      --border2: rgba(255,255,255,0.12);
+      --shadow: 0 4px 24px rgba(0,0,0,0.3), 0 1px 4px rgba(0,0,0,0.2);
+      --shadow-lifted: 0 12px 40px rgba(0,0,0,0.5), 0 2px 8px rgba(0,0,0,0.3);
+    }
+  }
+
+  html, body {
+    height: 100%;
+    overflow: hidden;
+    font-family: var(--sans);
+    background: var(--bg);
+    color: var(--text);
+    -webkit-font-smoothing: antialiased;
+    user-select: none;
+    touch-action: none;
+  }
+
+  #app {
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    max-width: 430px;
+    margin: 0 auto;
+    position: relative;
+    overflow: hidden;
+  }
+
+  /* ── SCREENS ── */
+  .screen { position: absolute; inset: 0; display: flex; flex-direction: column; transition: opacity 0.35s var(--ease), transform 0.35s var(--ease); }
+  .screen.hidden { opacity: 0; pointer-events: none; transform: scale(0.97); }
+
+  /* ── HOME SCREEN ── */
+  #home { background: var(--bg); padding: 0 0 env(safe-area-inset-bottom, 20px); }
+
+  .home-header {
+    padding: 60px 28px 24px;
+  }
+  .home-label {
+    font-family: var(--sans);
+    font-size: 11px;
+    font-weight: 500;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: var(--text3);
+    margin-bottom: 8px;
+  }
+  .home-title {
+    font-family: var(--serif);
+    font-size: 30px;
+    font-weight: 400;
+    line-height: 1.25;
+    color: var(--text);
+  }
+
+  .score-strip {
+    margin: 0 28px 28px;
+    background: var(--surface);
+    border-radius: 16px;
+    padding: 16px 20px;
+    border: 1px solid var(--border);
+    display: flex;
+    gap: 0;
+  }
+  .score-item {
+    flex: 1;
+    text-align: center;
+  }
+  .score-item + .score-item {
+    border-left: 1px solid var(--border);
+  }
+  .score-num {
+    font-family: var(--serif);
+    font-size: 26px;
+    font-weight: 400;
+    color: var(--text);
+    line-height: 1;
+    margin-bottom: 4px;
+  }
+  .score-num.green { color: var(--green); }
+  .score-num.gold { color: var(--gold); }
+  .score-label {
+    font-size: 11px;
+    color: var(--text3);
+    letter-spacing: 0.05em;
+  }
+
+  .archetype-list { padding: 0 20px; display: flex; flex-direction: column; gap: 10px; overflow-y: auto; flex: 1; }
+
+  .archetype-card {
+    background: var(--surface);
+    border-radius: 18px;
+    padding: 18px 20px;
+    border: 1px solid var(--border);
+    display: flex;
+    align-items: center;
+    gap: 16px;
+    cursor: pointer;
+    transition: transform 0.15s var(--ease), box-shadow 0.15s var(--ease), background 0.15s;
+    -webkit-tap-highlight-color: transparent;
+  }
+  .archetype-card:active { transform: scale(0.98); background: var(--surface2); }
+
+  .archetype-avatar {
+    width: 48px;
+    height: 48px;
+    border-radius: 14px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 22px;
+    flex-shrink: 0;
+  }
+  .archetype-info { flex: 1; min-width: 0; }
+  .archetype-name {
+    font-family: var(--serif);
+    font-size: 16px;
+    font-weight: 400;
+    color: var(--text);
+    margin-bottom: 3px;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+  .archetype-meta { font-size: 12px; color: var(--text3); }
+  .archetype-arrow {
+    color: var(--text3);
+    font-size: 18px;
+    flex-shrink: 0;
+  }
+  .archetype-progress {
+    height: 3px;
+    background: var(--surface2);
+    border-radius: 2px;
+    margin-top: 10px;
+    overflow: hidden;
+  }
+  .archetype-progress-fill {
+    height: 100%;
+    border-radius: 2px;
+    background: var(--gold);
+    transition: width 0.4s var(--ease);
+  }
+
+  /* ── STUDY SCREEN ── */
+  #study { background: var(--bg); }
+
+  .study-header {
+    padding: 56px 24px 16px;
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    flex-shrink: 0;
+  }
+  .back-btn {
+    width: 36px; height: 36px;
+    border-radius: 50%;
+    background: var(--surface);
+    border: 1px solid var(--border);
+    display: flex; align-items: center; justify-content: center;
+    cursor: pointer;
+    transition: background 0.12s;
+    -webkit-tap-highlight-color: transparent;
+  }
+  .back-btn:active { background: var(--surface2); }
+  .back-btn svg { width: 16px; height: 16px; stroke: var(--text2); stroke-width: 1.8; fill: none; stroke-linecap: round; }
+
+  .study-archetype-name {
+    font-family: var(--serif);
+    font-size: 17px;
+    color: var(--text);
+    font-weight: 400;
+    flex: 1;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+  .study-count {
+    font-size: 13px;
+    color: var(--text3);
+    flex-shrink: 0;
+  }
+
+  .progress-bar {
+    height: 2px;
+    background: var(--border);
+    margin: 0 24px;
+    border-radius: 1px;
+    overflow: hidden;
+    flex-shrink: 0;
+  }
+  .progress-fill {
+    height: 100%;
+    background: var(--gold);
+    border-radius: 1px;
+    transition: width 0.4s var(--ease);
+  }
+
+  /* ── CARD STAGE ── */
+  .card-stage {
+    flex: 1;
+    position: relative;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 16px 20px;
+    overflow: hidden;
+  }
+
+  .chapter-label {
+    position: absolute;
+    top: 8px;
+    left: 50%;
+    transform: translateX(-50%);
+    font-size: 10px;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: var(--text3);
+    white-space: nowrap;
+    max-width: 280px;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+
+  .card-ghost {
+    position: absolute;
+    inset: 16px 20px;
+    background: var(--surface);
+    border-radius: var(--radius);
+    border: 1px solid var(--border);
+    transform: scale(0.94) translateY(6px);
+    transition: transform 0.3s var(--ease);
+  }
+  .card-ghost2 {
+    transform: scale(0.88) translateY(12px);
+  }
+
+  .flashcard {
+    position: absolute;
+    inset: 16px 20px;
+    background: var(--surface);
+    border-radius: var(--radius);
+    border: 1px solid var(--border);
+    box-shadow: var(--shadow);
+    display: flex;
+    flex-direction: column;
+    cursor: pointer;
+    -webkit-tap-highlight-color: transparent;
+    will-change: transform;
+    overflow: hidden;
+    touch-action: none;
+  }
+
+  .card-front, .card-back {
+    position: absolute;
+    inset: 0;
+    display: flex;
+    flex-direction: column;
+    padding: 28px 26px;
+    transition: opacity 0.25s var(--ease);
+  }
+  .card-back { opacity: 0; pointer-events: none; }
+  .card-revealed .card-front { opacity: 0; pointer-events: none; }
+  .card-revealed .card-back { opacity: 1; pointer-events: auto; }
+
+  .card-section-tag {
+    font-size: 10px;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: var(--text3);
+    margin-bottom: 20px;
+  }
+  .card-principle {
+    font-family: var(--serif);
+    font-size: 13px;
+    font-style: italic;
+    color: var(--gold);
+    margin-bottom: 12px;
+    line-height: 1.4;
+  }
+  .card-question {
+    font-family: var(--serif);
+    font-size: 18px;
+    font-weight: 400;
+    line-height: 1.6;
+    color: var(--text);
+    flex: 1;
+  }
+  .card-tap-hint {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    font-size: 11px;
+    color: var(--text3);
+    margin-top: 20px;
+  }
+  .hint-dot {
+    width: 4px; height: 4px;
+    border-radius: 50%;
+    background: var(--text3);
+    animation: pulse 2s ease-in-out infinite;
+  }
+  @keyframes pulse { 0%,100%{opacity:0.4} 50%{opacity:1} }
+
+  .card-answer-label {
+    font-size: 10px;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: var(--text3);
+    margin-bottom: 14px;
+  }
+  .card-answer {
+    font-family: var(--serif);
+    font-size: 16px;
+    font-weight: 400;
+    line-height: 1.65;
+    color: var(--text);
+    flex: 1;
+    overflow-y: auto;
+  }
+  .card-more-hint {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    font-size: 11px;
+    color: var(--text3);
+    margin-top: 16px;
+  }
+
+  /* Swipe feedback overlays */
+  .swipe-overlay {
+    position: absolute;
+    inset: 0;
+    border-radius: var(--radius);
+    opacity: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    pointer-events: none;
+    transition: opacity 0.1s;
+  }
+  .swipe-right-overlay { background: linear-gradient(135deg, rgba(46,125,82,0.15), transparent); }
+  .swipe-left-overlay { background: linear-gradient(225deg, rgba(192,57,43,0.15), transparent); }
+
+  .swipe-label {
+    font-family: var(--serif);
+    font-size: 28px;
+    font-weight: 400;
+    padding: 10px 20px;
+    border-radius: 12px;
+    border: 2px solid;
+    transform: rotate(-15deg);
+  }
+  .swipe-right-overlay .swipe-label { color: var(--green); border-color: var(--green); transform: rotate(-15deg); }
+  .swipe-left-overlay .swipe-label { color: var(--red); border-color: var(--red); transform: rotate(15deg); }
+
+  /* ── SWIPE ACTIONS BAR ── */
+  .swipe-actions {
+    display: flex;
+    gap: 12px;
+    padding: 12px 20px;
+    flex-shrink: 0;
+  }
+  .action-btn {
+    flex: 1;
+    height: 52px;
+    border-radius: 14px;
+    border: 1.5px solid var(--border2);
+    background: var(--surface);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    font-family: var(--sans);
+    font-size: 14px;
+    font-weight: 400;
+    cursor: pointer;
+    transition: transform 0.12s var(--ease), background 0.12s, opacity 0.2s;
+    -webkit-tap-highlight-color: transparent;
+    opacity: 0;
+    pointer-events: none;
+  }
+  .action-btn.visible { opacity: 1; pointer-events: auto; }
+  .action-btn:active { transform: scale(0.96); }
+  .action-btn.wrong { color: var(--red); border-color: rgba(192,57,43,0.25); }
+  .action-btn.right { color: var(--green); border-color: rgba(46,125,82,0.25); }
+  .action-btn svg { width: 16px; height: 16px; stroke: currentColor; fill: none; stroke-width: 1.8; stroke-linecap: round; stroke-linejoin: round; }
+
+  /* ── BOTTOM SHEET (elaborated answer) ── */
+  .sheet-backdrop {
+    position: fixed;
+    inset: 0;
+    background: rgba(0,0,0,0.35);
+    opacity: 0;
+    pointer-events: none;
+    transition: opacity 0.3s var(--ease);
+    z-index: 100;
+  }
+  .sheet-backdrop.open { opacity: 1; pointer-events: auto; }
+
+  .bottom-sheet {
+    position: fixed;
+    bottom: 0;
+    left: 50%;
+    transform: translateX(-50%) translateY(100%);
+    width: 100%;
+    max-width: 430px;
+    background: var(--surface);
+    border-radius: 24px 24px 0 0;
+    border: 1px solid var(--border);
+    border-bottom: none;
+    z-index: 101;
+    transition: transform 0.4s var(--trans);
+    max-height: 80vh;
+    display: flex;
+    flex-direction: column;
+    padding-bottom: env(safe-area-inset-bottom, 16px);
+  }
+  .bottom-sheet.open { transform: translateX(-50%) translateY(0); }
+
+  .sheet-handle {
+    width: 36px; height: 4px;
+    background: var(--border2);
+    border-radius: 2px;
+    margin: 12px auto 0;
+    flex-shrink: 0;
+  }
+  .sheet-header {
+    padding: 16px 24px 0;
+    flex-shrink: 0;
+  }
+  .sheet-tag {
+    font-size: 10px;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: var(--text3);
+    margin-bottom: 8px;
+  }
+  .sheet-title {
+    font-family: var(--serif);
+    font-size: 17px;
+    color: var(--text);
+    font-weight: 400;
+    line-height: 1.4;
+  }
+  .sheet-divider { height: 1px; background: var(--border); margin: 16px 24px; flex-shrink: 0; }
+  .sheet-body {
+    padding: 0 24px 24px;
+    overflow-y: auto;
+    flex: 1;
+    -webkit-overflow-scrolling: touch;
+  }
+  .sheet-body p {
+    font-family: var(--serif);
+    font-size: 15px;
+    line-height: 1.75;
+    color: var(--text2);
+  }
+
+  /* ── DONE SCREEN ── */
+  #done { background: var(--bg); display: flex; flex-direction: column; align-items: center; justify-content: center; padding: 40px 28px; text-align: center; }
+  .done-icon {
+    width: 72px; height: 72px;
+    border-radius: 22px;
+    background: var(--gold-light);
+    display: flex; align-items: center; justify-content: center;
+    font-size: 34px;
+    margin-bottom: 28px;
+  }
+  .done-title {
+    font-family: var(--serif);
+    font-size: 28px;
+    color: var(--text);
+    margin-bottom: 12px;
+  }
+  .done-sub {
+    font-size: 15px;
+    color: var(--text2);
+    line-height: 1.6;
+    margin-bottom: 36px;
+  }
+  .done-stats {
+    display: flex;
+    gap: 12px;
+    width: 100%;
+    margin-bottom: 36px;
+  }
+  .done-stat {
+    flex: 1;
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 16px;
+    padding: 16px;
+  }
+  .done-stat-num {
+    font-family: var(--serif);
+    font-size: 30px;
+    color: var(--text);
+    margin-bottom: 4px;
+  }
+  .done-stat-num.green { color: var(--green); }
+  .done-stat-label { font-size: 11px; color: var(--text3); }
+  .primary-btn {
+    width: 100%;
+    height: 52px;
+    border-radius: 14px;
+    background: var(--text);
+    color: var(--bg);
+    font-family: var(--sans);
+    font-size: 15px;
+    font-weight: 400;
+    border: none;
+    cursor: pointer;
+    margin-bottom: 10px;
+    transition: opacity 0.15s;
+    -webkit-tap-highlight-color: transparent;
+  }
+  .primary-btn:active { opacity: 0.8; }
+  .ghost-btn {
+    width: 100%;
+    height: 48px;
+    border-radius: 14px;
+    background: transparent;
+    color: var(--text2);
+    font-family: var(--sans);
+    font-size: 15px;
+    border: 1px solid var(--border2);
+    cursor: pointer;
+    transition: background 0.12s;
+    -webkit-tap-highlight-color: transparent;
+  }
+  .ghost-btn:active { background: var(--surface2); }
+</style>
+</head>
+<body>
+<div id="app">
+
+  <!-- HOME -->
+  <div class="screen" id="home">
+    <div class="home-header">
+      <div class="home-label">Mental Models</div>
+      <h1 class="home-title">Study great minds,<br>build sharper thinking.</h1>
+    </div>
+
+    <div class="score-strip">
+      <div class="score-item">
+        <div class="score-num" id="total-reviewed">0</div>
+        <div class="score-label">Reviewed</div>
+      </div>
+      <div class="score-item">
+        <div class="score-num green" id="total-correct">0</div>
+        <div class="score-label">Correct</div>
+      </div>
+      <div class="score-item">
+        <div class="score-num gold" id="total-pct">—</div>
+        <div class="score-label">Accuracy</div>
+      </div>
+    </div>
+
+    <div class="archetype-list" id="archetype-list"></div>
+  </div>
+
+  <!-- STUDY -->
+  <div class="screen hidden" id="study">
+    <div class="study-header">
+      <div class="back-btn" id="back-btn">
+        <svg viewBox="0 0 24 24"><polyline points="15 18 9 12 15 6"/></svg>
+      </div>
+      <div class="study-archetype-name" id="study-archetype-name"></div>
+      <div class="study-count" id="study-count"></div>
+    </div>
+    <div class="progress-bar">
+      <div class="progress-fill" id="progress-fill"></div>
+    </div>
+
+    <div class="card-stage" id="card-stage">
+      <div class="chapter-label" id="chapter-label"></div>
+      <div class="card-ghost card-ghost2" id="ghost2"></div>
+      <div class="card-ghost" id="ghost1"></div>
+
+      <div class="flashcard" id="flashcard">
+        <!-- Right swipe overlay -->
+        <div class="swipe-overlay swipe-right-overlay" id="right-overlay">
+          <div class="swipe-label">Got it</div>
+        </div>
+        <!-- Left swipe overlay -->
+        <div class="swipe-overlay swipe-left-overlay" id="left-overlay">
+          <div class="swipe-label">Missed</div>
+        </div>
+
+        <div class="card-front" id="card-front">
+          <div class="card-section-tag" id="card-section"></div>
+          <div class="card-principle" id="card-principle"></div>
+          <div class="card-question" id="card-question"></div>
+          <div class="card-tap-hint">
+            <div class="hint-dot"></div>
+            Tap card to reveal answer
+          </div>
+        </div>
+        <div class="card-back" id="card-back">
+          <div class="card-answer-label">Answer</div>
+          <div class="card-answer" id="card-answer"></div>
+          <div class="card-more-hint" id="card-more-hint">
+            <div class="hint-dot"></div>
+            Double-tap for deeper context
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="swipe-actions" id="swipe-actions">
+      <button class="action-btn wrong" id="btn-wrong">
+        <svg viewBox="0 0 24 24"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
+        Missed it
+      </button>
+      <button class="action-btn right" id="btn-right">
+        Got it
+        <svg viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"/></svg>
+      </button>
+    </div>
+  </div>
+
+  <!-- DONE -->
+  <div class="screen hidden" id="done">
+    <div class="done-icon">✦</div>
+    <div class="done-title">Deck complete</div>
+    <div class="done-sub" id="done-sub">You've reviewed all cards in this deck.</div>
+    <div class="done-stats">
+      <div class="done-stat">
+        <div class="done-stat-num" id="done-total">0</div>
+        <div class="done-stat-label">Reviewed</div>
+      </div>
+      <div class="done-stat">
+        <div class="done-stat-num green" id="done-correct">0</div>
+        <div class="done-stat-label">Correct</div>
+      </div>
+      <div class="done-stat">
+        <div class="done-stat-num" id="done-pct">—</div>
+        <div class="done-stat-label">Accuracy</div>
+      </div>
+    </div>
+    <button class="primary-btn" id="done-restart">Study again</button>
+    <button class="ghost-btn" id="done-home">Back to archetypes</button>
+  </div>
+
+</div>
+
+<!-- BOTTOM SHEET -->
+<div class="sheet-backdrop" id="sheet-backdrop"></div>
+<div class="bottom-sheet" id="bottom-sheet">
+  <div class="sheet-handle"></div>
+  <div class="sheet-header">
+    <div class="sheet-tag">Deep context</div>
+    <div class="sheet-title" id="sheet-title"></div>
+  </div>
+  <div class="sheet-divider"></div>
+  <div class="sheet-body">
+    <p id="sheet-body"></p>
+  </div>
+</div>
+
+<script>
+const DATA = {
+  archetypes: [
+    {
+      id: "philosopher-investor",
+      name: "The Philosopher Investor",
+      emoji: "📖",
+      color: "#3B6D11",
+      bg: "#EAF3DE",
+      darkBg: "#0D2010",
+      description: "Radical transparency · Principled systems",
+      cards: [
+        { id: 3, principle: "Why Are Principles Important?", question: "Dalio argues that operating without principles is even more damaging for groups than for individuals. What is his reasoning, and what does it imply about organizational culture?", short_answer: "Without shared principles, individuals in a group lack a common framework for deciding how to behave, so they 'randomly bump into each other' — creating constant misunderstanding, conflict, and misaligned action.", elaborated_answer: "For an individual, the absence of principles means reacting to each situation from scratch, never leveraging past reasoning and never building consistent character. For a group the problem compounds: each person brings different implicit assumptions about what matters, and in the absence of explicit, shared principles those assumptions collide unpredictably. No one knows how to resolve disputes, set priorities, or coordinate under stress. Dalio's implication is that an organization's culture is ultimately just the set of principles — explicit or implicit — by which its people operate. If those principles are never articulated, the culture is determined by whoever shouts loudest or by historical accident. Making principles explicit allows a group to hold itself accountable and to correct behavior against a known standard.", chapter: "Part 1: The Importance of Principles", section: "Why Are Principles Important?" },
+        { id: 4, principle: "Developing Principles Through Experience", question: "Dalio says the most valuable principles come from your own experiences and reflection on them, not from being taught. What does this imply about how you should treat a difficult or painful situation?", short_answer: "Every hard choice is raw material for a more refined principle; the difficulty is not the problem but the refinery. Refusing to reflect on a painful event is, in effect, refusing a free upgrade to your decision-making.", elaborated_answer: "Dalio argues that principles are honed each time you face a genuine dilemma and force yourself to ask 'why' about the choice you made or the rule you invoked. For example, 'I won't steal' becomes more robust once you examine whether it is grounded in empathy for a victim or merely in fear of punishment — two very different foundations with very different implications in edge cases. This means that the person who treats every setback, mistake, or moral conflict as an opportunity for principled reflection is compounding their decision-making capital, while the person who avoids such reflection stagnates. It also implies that borrowed wisdom can only go so far: a principle you derived from your own tested experience is more durable and more precisely calibrated to your actual values than one you simply read in a book.", chapter: "Part 1: The Importance of Principles", section: "How Well Do Your Principles Work?" },
+        { id: 5, principle: "Reality + Truth = Good Outcomes", question: "Dalio insists you must 'embrace reality and deal with it.' What's the relationship between accepting painful truths and achieving your goals?", short_answer: "Denying reality only delays the feedback loop you need to improve. Confronting uncomfortable facts, even when it hurts, is the shortest path between who you are now and who you want to become.", elaborated_answer: "Dalio frames reality as a machine that produces outcomes according to how well your actions match its actual laws — not your preferred version of them. When you avoid a painful truth (e.g., that a business model isn't working, or that you lack a skill), you defer the course-correction signal you need. Each deferral compounds: you continue investing time, money, and energy in a direction the reality-machine will keep punishing. Conversely, the person willing to feel the pain early and fully gains the feedback quickly and can pivot. Dalio's broader point is that truth-seeking is not virtuous in an abstract moral sense — it is strategically optimal. The most successful people he has observed treat painful realities as information to be used, not threats to be managed.", chapter: "Part 1: The Importance of Principles", section: "Reality + Truth = Good Outcomes" },
+        { id: 6, principle: "The 5-Step Process", question: "What are Dalio's five steps to getting what you want, and which step do most people fail to complete?", short_answer: "Set goals → Identify problems → Diagnose root causes → Design solutions → Execute. Most people fail at step 3: they fix symptoms (problems) rather than diagnosing the underlying causes (root causes).", elaborated_answer: "Dalio's five-step process is designed to be iterative: you cycle through it continuously rather than completing it once. The critical insight is that each step requires a distinct mode of thinking, and conflating them creates failure. Setting goals requires creative dreaming. Identifying problems requires brutal honesty. Diagnosing root causes requires analytical rigor — specifically, tracing symptoms back to the human behavior or system design that generated them. Designing solutions requires both creativity and practicality. Executing requires discipline. Most people oscillate between goals and problems, never pausing to genuinely diagnose. They assume the problem is the root cause — for instance, blaming revenue decline on 'bad luck' rather than diagnosing the sales process breakdown. Without accurate diagnosis, the solution will treat symptoms and the same problems will recur.", chapter: "Part 2: My Most Fundamental Principles", section: "The 5-Step Process to Getting What You Want" }
+      ]
+    },
+    {
+      id: "innovative-entrepreneur",
+      name: "The Innovative Entrepreneur",
+      emoji: "🚀",
+      color: "#185FA5",
+      bg: "#E6F1FB",
+      darkBg: "#071828",
+      description: "First principles · Ultra hardcore work",
+      cards: [
+        { id: 29, principle: "Earn Deep Understanding", question: "How did combining the roles of chief engineer and CEO give this entrepreneur a structural speed advantage over typical companies?", short_answer: "Engineering decisions and spending decisions were made in one brain simultaneously, eliminating the trust gap and communication delay between separate engineering and finance roles.", elaborated_answer: "In most companies, an engineer must convince a finance person to approve spending, but the finance person often lacks the technical knowledge to evaluate the request — and may not fully trust the engineer either. This creates friction and delay. At SpaceX, Musk held both roles, meaning technical judgment and budget approval lived in the same mind. No persuasion, no lag, no translation loss. He considers CEOs who don't understand their own technology's details to be fundamentally compromised in decision-making.", chapter: "Part II: Ultra Hardcore Work", section: "Earn Deep Understanding" },
+        { id: 30, principle: "Earn Deep Understanding", question: "What was the original motivation for studying both physics and business — and what was discovered about the relationship between them?", short_answer: "The goal was to avoid being outmaneuvered by someone with domain knowledge you lack — and the discovery: if you can do physics math, business math is easy.", elaborated_answer: "The fear wasn't being outcompeted — it was being outmaneuvered by someone with domain knowledge one lacked. So the deliberate approach filled both gaps: physics for analytical rigor and a deep model of reality; economics and business for organizational and financial fluency. The finding: physics trains you in the hardest mathematical and logical reasoning, and business math — including securities analysis — is comparatively straightforward by contrast.", chapter: "Part II: Ultra Hardcore Work", section: "Earn Deep Understanding" },
+        { id: 31, principle: "First Principles Thinking", question: "What does it mean to reason from first principles rather than by analogy — and why does analogy-based thinking put a ceiling on innovation?", short_answer: "Reasoning by analogy means copying what others have done with small modifications. First-principles reasoning means boiling a problem down to its most fundamental truths and building up from there — escaping inherited assumptions about what's possible or what it should cost.", elaborated_answer: "Almost all thinking in most companies is analogy-based: 'we price it this way because others do,' or 'this component costs X because that's what it has always cost.' The problem is that analogy thinking inherits all of the constraints and blind spots of prior solutions. First-principles thinking asks: what are the actual physical or logical laws at work here? What would this cost if we optimized purely from those laws? In practice, this approach revealed that rocket components cost far less than market prices suggested, because market prices were set by an oligopoly reasoning from its own legacy cost structures rather than from material reality. First-principles thinking is harder — it requires knowing the underlying physics or economics deeply enough to distrust the incumbent answer.", chapter: "Part I: The Mission", section: "First Principles" },
+        { id: 32, principle: "Urgency as Existential Imperative", question: "Why does this entrepreneur treat speed not as a competitive preference but as a moral obligation?", short_answer: "Because the window for becoming multi-planetary may be narrow and historically contingent — and if civilization collapses before it happens, there is no second chance.", elaborated_answer: "The urgency isn't competitive in the normal business sense. It stems from a particular view of civilizational risk: that the technologies required to make humanity multi-planetary need to be developed and deployed within a specific historical window — while there is still sufficient industrial capacity, knowledge, and stability to do so. A major civilizational setback — a large-scale war, an energy crisis, an economic collapse — could close that window permanently. In this frame, delays aren't just inefficiencies; they are risks of permanent civilizational failure. This is why the culture at SpaceX treats urgency not as a management style but as a survival imperative. It also explains the seeming irrationality of accepting high failure rates: the cost of going fast and failing is recoverable; the cost of going slow and missing the window is not.", chapter: "Part I: The Mission", section: "Urgency and the Window" }
+      ]
+    },
+    {
+      id: "philosophical-investor",
+      name: "The Philosophical Investor",
+      emoji: "🧭",
+      color: "#7F77DD",
+      bg: "#EEEDFE",
+      darkBg: "#12102A",
+      description: "Wealth · Freedom · Clear thinking",
+      cards: [
+        { id: 1, principle: "Wealth vs. Money vs. Status", question: "Naval distinguishes sharply between wealth, money, and status. What is the distinction, and why does it matter for how you spend your time?", short_answer: "Wealth is assets that work while you sleep. Money is how you transfer wealth across time. Status is your rank in the social hierarchy. Chasing status is a zero-sum game — every winner needs losers. Chasing wealth is positive-sum.", elaborated_answer: "Naval's core insight is that most people conflate these three and end up optimizing for the wrong thing. Status games require constant social comparison — your position only improves when others fall. Wealth games, properly played, can expand the pie: you create value that didn't exist before and capture some of it. Money is simply the intermediary that lets you trade the value you create now for value others will create later. The practical implication is that time spent in status competitions — whether corporate politics, social media follower counts, or prestige signaling — is largely wasted time from a wealth-creation perspective. The person who ignores their rank and focuses on creating genuine leverage (code, media, capital, networks) compounds while the status-seeker stays on a treadmill.", chapter: "Part I: Wealth", section: "Wealth vs. Money vs. Status" },
+        { id: 2, principle: "Specific Knowledge", question: "What is specific knowledge, and why can't it be taught in a school or trained away by a company?", short_answer: "Specific knowledge is the set of skills and insights that emerge from your unique experiences, obsessions, and natural inclinations — it can be learned but not systematically taught, which means it can't be commoditized or easily replaced.", elaborated_answer: "Naval argues that the most economically valuable knowledge is the kind that arises from genuine curiosity and lived experience, not from following a curriculum. If a skill can be taught in a formal program, it can be standardized — and anything standardized can be scaled, commoditized, and eventually automated or outsourced. Specific knowledge, by contrast, emerges at the intersection of what you find genuinely interesting and what the world happens to value. Because it comes from your particular combination of experiences and obsessions, it is hard to replicate at scale. The insight for career design is to find work where your natural fascinations give you an advantage, rather than competing on skills that are equally available to everyone who took the same course.", chapter: "Part I: Wealth", section: "Specific Knowledge" },
+        { id: 3, principle: "Leverage", question: "Naval identifies three forms of leverage. What are they, and which does he think is most accessible and underused today?", short_answer: "Labor (people work for you), capital (money works for you), and products with no marginal cost of replication — code and media. The third is new, permissionless, and massively underused.", elaborated_answer: "Historically, leverage required either managing people or deploying capital — both of which required permission from others (employers, investors, banks). Code and media are categorically different: a single person can write software or create content that reaches millions at near-zero marginal cost, requiring no permission from any institution. Naval's argument is that the internet has made this third form of leverage extraordinarily accessible to anyone with the skills to use it, but most people still default to thinking about labor leverage (getting a better job, managing a team) because that's the model they inherited. A one-person software product or a newsletter with a loyal audience can generate leverage that would have required an entire organization a generation ago.", chapter: "Part I: Wealth", section: "Leverage" },
+        { id: 4, principle: "The Long Game", question: "Why does Naval say you should be willing to 'earn with your mind, not your time' — and what's the compounding principle behind it?", short_answer: "Time-based income has a hard ceiling — you can only sell each hour once. Mind-based income can scale because ideas, systems, and creative works can generate returns long after the initial effort.", elaborated_answer: "The distinction is between linear and compounding returns on effort. Trading time for money is linear: double the hours, double the pay, but you can never get those hours back. Building something with your mind — a business model, a software product, a body of writing, an investment thesis — creates an asset that can generate returns independently of future time invested. Naval's prescription is to spend your formative years aggressively building specific knowledge, leverage, and accountability, accepting lower short-term income in exchange for the compounding optionality that those assets create. The counterintuitive implication is that the most financially rational move for a young person is often to forgo a high-paying but time-intensive job in favor of lower-paying work that builds transferable leverage assets.", chapter: "Part I: Wealth", section: "Work for Equity, Not Salary" }
+      ]
+    }
+  ]
+};
+
+// ── STATE ──
+let state = {
+  currentArchetypeId: null,
+  currentCardIndex: 0,
+  sessionCorrect: 0,
+  sessionTotal: 0,
+  isRevealed: false,
+  scores: {},
+};
+
+function loadScores() {
+  try { state.scores = JSON.parse(localStorage.getItem('mm_scores') || '{}'); } catch(e) { state.scores = {}; }
+}
+function saveScores() {
+  localStorage.setItem('mm_scores', JSON.stringify(state.scores));
+}
+function getTotals() {
+  let reviewed = 0, correct = 0;
+  Object.values(state.scores).forEach(s => { reviewed += (s.total||0); correct += (s.correct||0); });
+  return { reviewed, correct };
+}
+
+// ── SCREEN MANAGEMENT ──
+function showScreen(id) {
+  document.querySelectorAll('.screen').forEach(s => {
+    s.classList.toggle('hidden', s.id !== id);
+  });
+}
+
+// ── HOME ──
+function renderHome() {
+  loadScores();
+  const { reviewed, correct } = getTotals();
+  document.getElementById('total-reviewed').textContent = reviewed;
+  document.getElementById('total-correct').textContent = correct;
+  document.getElementById('total-pct').textContent = reviewed > 0 ? Math.round(correct/reviewed*100)+'%' : '—';
+
+  const list = document.getElementById('archetype-list');
+  list.innerHTML = '';
+  DATA.archetypes.forEach(a => {
+    const sc = state.scores[a.id] || {};
+    const total = sc.total || 0;
+    const pct = a.cards.length > 0 ? Math.round(total / a.cards.length * 100) : 0;
+    const isDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
+    const bgColor = isDark ? a.darkBg : a.bg;
+
+    const card = document.createElement('div');
+    card.className = 'archetype-card';
+    card.innerHTML = `
+      <div class="archetype-avatar" style="background:${bgColor};color:${a.color};">${a.emoji}</div>
+      <div class="archetype-info">
+        <div class="archetype-name">${a.name}</div>
+        <div class="archetype-meta">${a.description} · ${a.cards.length} cards</div>
+        <div class="archetype-progress">
+          <div class="archetype-progress-fill" style="width:${pct}%;background:${a.color}"></div>
+        </div>
+      </div>
+      <div class="archetype-arrow">›</div>
+    `;
+    card.addEventListener('click', () => startStudy(a.id));
+    list.appendChild(card);
+  });
+  showScreen('home');
+}
+
+// ── STUDY ──
+function startStudy(archetypeId) {
+  state.currentArchetypeId = archetypeId;
+  state.currentCardIndex = 0;
+  state.sessionCorrect = 0;
+  state.sessionTotal = 0;
+  state.isRevealed = false;
+  if (!state.scores[archetypeId]) state.scores[archetypeId] = { total: 0, correct: 0 };
+  // Reset session scores for this archetype
+  state.scores[archetypeId] = { total: 0, correct: 0 };
+  showScreen('study');
+  renderCard();
+}
+
+function getCurrentArchetype() {
+  return DATA.archetypes.find(a => a.id === state.currentArchetypeId);
+}
+function getCurrentCard() {
+  const a = getCurrentArchetype();
+  return a ? a.cards[state.currentCardIndex] : null;
+}
+
+function renderCard() {
+  const archetype = getCurrentArchetype();
+  const card = getCurrentCard();
+  if (!card) return;
+
+  document.getElementById('study-archetype-name').textContent = archetype.name;
+  const idx = state.currentCardIndex;
+  const total = archetype.cards.length;
+  document.getElementById('study-count').textContent = `${idx + 1} / ${total}`;
+  document.getElementById('progress-fill').style.width = `${(idx / total) * 100}%`;
+  document.getElementById('chapter-label').textContent = card.chapter;
+
+  document.getElementById('card-section').textContent = card.section;
+  document.getElementById('card-principle').textContent = card.principle;
+  document.getElementById('card-question').textContent = card.question;
+  document.getElementById('card-answer').textContent = card.short_answer;
+
+  const fc = document.getElementById('flashcard');
+  fc.classList.remove('card-revealed');
+  state.isRevealed = false;
+
+  // hide action buttons
+  document.getElementById('btn-wrong').classList.remove('visible');
+  document.getElementById('btn-right').classList.remove('visible');
+
+  // reset card position
+  fc.style.transition = 'none';
+  fc.style.transform = '';
+  fc.style.opacity = '1';
+  fc.style.pointerEvents = 'auto';
+  void fc.offsetWidth;
+  fc.style.transition = '';
+
+  // ghost visibility
+  document.getElementById('ghost1').style.opacity = idx < total - 1 ? '1' : '0';
+  document.getElementById('ghost2').style.opacity = idx < total - 2 ? '1' : '0';
+}
+
+function revealCard() {
+  if (state.isRevealed) return;
+  state.isRevealed = true;
+  document.getElementById('flashcard').classList.add('card-revealed');
+  document.getElementById('btn-wrong').classList.add('visible');
+  document.getElementById('btn-right').classList.add('visible');
+}
+
+function recordResult(correct) {
+  const archetype = getCurrentArchetype();
+  if (!archetype) return;
+  state.scores[archetype.id].total++;
+  if (correct) state.scores[archetype.id].correct++;
+  saveScores();
+  advanceCard(correct);
+}
+
+function advanceCard(correct) {
+  const fc = document.getElementById('flashcard');
+  const dx = correct ? window.innerWidth : -window.innerWidth;
+
+  fc.style.transition = 'transform 0.35s cubic-bezier(0.4,0,1,1), opacity 0.3s ease';
+  fc.style.transform = `translateX(${dx * 1.2}px) rotate(${correct ? 12 : -12}deg)`;
+  fc.style.opacity = '0';
+  fc.style.pointerEvents = 'none';
+
+  setTimeout(() => {
+    const archetype = getCurrentArchetype();
+    state.currentCardIndex++;
+    if (state.currentCardIndex >= archetype.cards.length) {
+      showDone();
+    } else {
+      renderCard();
+      // animate in
+      const fc2 = document.getElementById('flashcard');
+      fc2.style.transition = 'none';
+      fc2.style.transform = `translateX(${-dx * 0.3}px) scale(0.95)`;
+      fc2.style.opacity = '0';
+      void fc2.offsetWidth;
+      fc2.style.transition = 'transform 0.4s cubic-bezier(0.34,1.56,0.64,1), opacity 0.3s ease';
+      fc2.style.transform = '';
+      fc2.style.opacity = '1';
+    }
+  }, 370);
+}
+
+function showDone() {
+  const archetype = getCurrentArchetype();
+  const sc = state.scores[archetype.id] || {};
+  const total = sc.total || 0;
+  const correct = sc.correct || 0;
+  document.getElementById('done-total').textContent = total;
+  document.getElementById('done-correct').textContent = correct;
+  document.getElementById('done-pct').textContent = total > 0 ? Math.round(correct/total*100)+'%' : '—';
+  document.getElementById('done-sub').textContent = `You reviewed all ${archetype.cards.length} cards in ${archetype.name}.`;
+  showScreen('done');
+}
+
+// ── SWIPE GESTURE ──
+(function() {
+  const fc = document.getElementById('flashcard');
+  let startX = 0, startY = 0, currentX = 0, isDragging = false, startTime = 0;
+  const THRESHOLD = 100;
+  const rightO = document.getElementById('right-overlay');
+  const leftO = document.getElementById('left-overlay');
+
+  function onStart(x, y) {
+    if (!state.isRevealed) return;
+    isDragging = true;
+    startX = x;
+    startY = y;
+    currentX = 0;
+    startTime = Date.now();
+    fc.style.transition = 'none';
+  }
+
+  function onMove(x, y) {
+    if (!isDragging) return;
+    currentX = x - startX;
+    const currentY = y - startY;
+    if (!isDragging) return;
+    const rotate = currentX * 0.08;
+    fc.style.transform = `translateX(${currentX}px) translateY(${currentY * 0.3}px) rotate(${rotate}deg)`;
+    const progress = Math.abs(currentX) / THRESHOLD;
+    if (currentX > 0) {
+      rightO.style.opacity = Math.min(progress, 1);
+      leftO.style.opacity = 0;
+    } else {
+      leftO.style.opacity = Math.min(progress, 1);
+      rightO.style.opacity = 0;
+    }
+  }
+
+  function onEnd() {
+    if (!isDragging) return;
+    isDragging = false;
+    rightO.style.opacity = 0;
+    leftO.style.opacity = 0;
+    const dt = Date.now() - startTime;
+    const velocity = Math.abs(currentX) / dt;
+    if (Math.abs(currentX) > THRESHOLD || velocity > 0.5) {
+      recordResult(currentX > 0);
+    } else {
+      fc.style.transition = 'transform 0.4s cubic-bezier(0.34,1.56,0.64,1)';
+      fc.style.transform = '';
+    }
+  }
+
+  fc.addEventListener('touchstart', e => {
+    if (e.touches.length !== 1) return;
+    onStart(e.touches[0].clientX, e.touches[0].clientY);
+  }, { passive: true });
+  fc.addEventListener('touchmove', e => {
+    if (!isDragging) return;
+    e.preventDefault();
+    onMove(e.touches[0].clientX, e.touches[0].clientY);
+  }, { passive: false });
+  fc.addEventListener('touchend', onEnd);
+
+  // Mouse fallback for desktop testing
+  fc.addEventListener('mousedown', e => onStart(e.clientX, e.clientY));
+  window.addEventListener('mousemove', e => { if (isDragging) onMove(e.clientX, e.clientY); });
+  window.addEventListener('mouseup', onEnd);
+})();
+
+// ── TAP TO REVEAL + DOUBLE TAP ──
+(function() {
+  const fc = document.getElementById('flashcard');
+  let lastTap = 0;
+
+  fc.addEventListener('click', () => {
+    if (!state.isRevealed) {
+      revealCard();
+      return;
+    }
+    const now = Date.now();
+    if (now - lastTap < 300) {
+      // double tap → open sheet
+      const card = getCurrentCard();
+      if (card) openSheet(card);
+      lastTap = 0;
+    } else {
+      lastTap = now;
+    }
+  });
+
+  fc.addEventListener('touchend', (e) => {
+    if (!state.isRevealed) return;
+    const now = Date.now();
+    if (now - lastTap < 300) {
+      const card = getCurrentCard();
+      if (card) openSheet(card);
+      lastTap = 0;
+      e.preventDefault();
+    } else {
+      lastTap = now;
+    }
+  });
+})();
+
+// ── BOTTOM SHEET ──
+function openSheet(card) {
+  document.getElementById('sheet-title').textContent = card.short_answer;
+  document.getElementById('sheet-body').textContent = card.elaborated_answer;
+  document.getElementById('sheet-backdrop').classList.add('open');
+  document.getElementById('bottom-sheet').classList.add('open');
+}
+function closeSheet() {
+  document.getElementById('sheet-backdrop').classList.remove('open');
+  document.getElementById('bottom-sheet').classList.remove('open');
+}
+document.getElementById('sheet-backdrop').addEventListener('click', closeSheet);
+
+// ── BUTTON HANDLERS ──
+document.getElementById('back-btn').addEventListener('click', renderHome);
+document.getElementById('btn-wrong').addEventListener('click', () => recordResult(false));
+document.getElementById('btn-right').addEventListener('click', () => recordResult(true));
+document.getElementById('done-restart').addEventListener('click', () => startStudy(state.currentArchetypeId));
+document.getElementById('done-home').addEventListener('click', renderHome);
+
+// ── INIT ──
+loadScores();
+renderHome();
+</script>
+</body>
+</html>

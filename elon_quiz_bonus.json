@@ -1,0 +1,142 @@
+{
+  "title": "The Book of Elon — Mental Model Quiz: Bonus",
+  "source": "The Book of Elon by Eric Jorgenson (2026)",
+  "part": "Bonus: The 69 Core Musk Methods + Recommended Reading",
+  "questions": [
+    {
+      "id": 126,
+      "principle": "The 69 Core Methods — Purpose",
+      "question": "According to the 69 Core Musk Methods, what is the right aspiration — glory or work?",
+      "short_answer": "Aspire to work, not glory.",
+      "elaborated_answer": "Musk frames the pursuit of glory as fundamentally misaligned. Glory is a lagging indicator of useful output — it comes, if ever, after the work is done. Optimizing for recognition means optimizing for perception rather than reality. His methods consistently redirect toward the intrinsic: work on useful things, create more than you consume, be willing to do hard, unglamorous work indefinitely. Glory, in his model, is a byproduct that may or may not arrive — and it doesn't matter either way if the work was genuinely useful.",
+      "chapter": "Bonus",
+      "section": "The 69 Core Musk Methods — Methods 1-12"
+    },
+    {
+      "id": 127,
+      "principle": "The 69 Core Methods — Innovation",
+      "question": "What does Musk mean by Method 12: 'Work on what is just becoming possible'?",
+      "short_answer": "Target the frontier where new capabilities have just unlocked something previously impossible — early enough to matter, not so early the technology doesn't exist.",
+      "elaborated_answer": "This is a timing principle. Working on something that's been possible for decades means competing in a crowded field with entrenched incumbents. Working on something not yet technically feasible means spending decades waiting. The sweet spot — 'just becoming possible' — is where a new enabling technology has recently made something achievable that couldn't be done before, but the field hasn't yet been organized around it. Lithium-ion batteries making EVs viable in the 2000s, or reusable rockets becoming technically feasible in the 2010s, are Musk's lived examples of this timing principle.",
+      "chapter": "Bonus",
+      "section": "The 69 Core Musk Methods — Methods 1-12"
+    },
+    {
+      "id": 128,
+      "principle": "The 69 Core Methods — First Principles",
+      "question": "What is the 'magic-wand number' in Musk's methods — and what does it reveal?",
+      "short_answer": "The theoretical minimum cost of a product if you could rearrange its raw materials for free — it reveals how far actual production costs are from the physical floor, exposing manufacturing inefficiency.",
+      "elaborated_answer": "The magic-wand number is a first-principles benchmark. You list all the materials in a product, find their market prices, and imagine a machine that could perfectly arrange them with zero labor cost. That gives you the theoretical floor. If the actual cost is 50x or 100x higher, that gap represents manufacturing inefficiency, excess process complexity, or supply chain overhead — all of which are engineering problems that can be solved. SpaceX used this to see that rockets could theoretically cost 1–2% of their actual price, which justified the entire company's founding premise.",
+      "chapter": "Bonus",
+      "section": "The 69 Core Musk Methods — Methods 19-21"
+    },
+    {
+      "id": 129,
+      "principle": "The 69 Core Methods — The Algorithm",
+      "question": "What is the full five-step order of The Algorithm — and what is the most common way smart people get it wrong?",
+      "short_answer": "1) Question requirements, 2) Delete, 3) Simplify, 4) Accelerate, 5) Automate. Most common mistake: optimizing or automating something that should have been deleted.",
+      "elaborated_answer": "The Algorithm's power comes entirely from its order. Violating the sequence means spending effort on things that shouldn't exist. The most common failure mode is step three before step two: optimizing a process that should have been deleted. The second most common is step five before steps one through four: automating something that was needlessly complex or incorrectly specified. Musk says he personally violated all five steps — in the wrong order — multiple times. The fiberglass mat story is his canonical example: two million dollars of robotics spent automating a part that turned out to be completely unnecessary.",
+      "chapter": "Bonus",
+      "section": "The 69 Core Musk Methods — Method 21"
+    },
+    {
+      "id": 130,
+      "principle": "The 69 Core Methods — Urgency",
+      "question": "How does Musk's Method 33 ('a factory moving at twice the speed is equivalent to two factories') apply beyond manufacturing?",
+      "short_answer": "Speed of iteration is a force multiplier in any domain — engineering, software, decision-making. A team that cycles twice as fast produces compounding advantages that eventually make size irrelevant.",
+      "elaborated_answer": "The factory doubling insight generalizes: in any competitive context, speed of iteration is equivalent to having more capacity. A software team that ships weekly doesn't just produce twice the features of a monthly team — it gets more feedback cycles, catches errors faster, and compounds learning faster. In innovation races (rockets, cars, AI), the team iterating fastest continuously improves their edge even if they started smaller or less resourced. This is also Musk's argument for why speed is the best IP protection: if you're iterating faster than competitors can copy, they're always chasing your past.",
+      "chapter": "Bonus",
+      "section": "The 69 Core Musk Methods — Methods 32-40"
+    },
+    {
+      "id": 131,
+      "principle": "The 69 Core Methods — Leadership",
+      "question": "What does Musk's Method 45 mean by 'ability must exceed ego' — and what happens when it doesn't?",
+      "short_answer": "When ego exceeds ability, the feedback loop to reality breaks — you stop receiving accurate signals, stop improving, and eventually your decisions decouple from actual conditions.",
+      "elaborated_answer": "Musk uses a reinforcement learning analogy: good leadership requires constant, honest feedback from reality. A high ego-to-ability ratio distorts that loop. You start filtering out negative information, surrounding yourself with agreement, and interpreting criticism as attacks rather than data. Over time, your mental model of the world diverges from actual conditions. Decisions based on that distorted model produce bad outcomes. He describes the solution as a continuous practice — not a one-time fix — of 'smashing your ego': actively seeking criticism, accepting it gracefully, and internalizing responsibility for failures.",
+      "chapter": "Bonus",
+      "section": "The 69 Core Musk Methods — Methods 41-50"
+    },
+    {
+      "id": 132,
+      "principle": "The 69 Core Methods — Failure",
+      "question": "What is the relationship between Methods 58 and 59 — 'failure is essentially irrelevant unless catastrophic' and 'fear of failure is the biggest cause of failure'?",
+      "short_answer": "Most failures are recoverable and produce learning — treating them as catastrophic when they're not creates paralysis, which is the actual failure mode. Fear of failure prevents the iteration that leads to success.",
+      "elaborated_answer": "These two methods are the flip sides of the same insight. Method 58 says: calibrate correctly — most failures are non-fatal and informative. Method 59 says: when people miscalibrate (treating recoverable failures as catastrophic), fear dominates decision-making and prevents action. The result is often worse than the feared failure itself: opportunities missed, decisions delayed, bold ideas abandoned. Musk's solution is to genuinely internalize the limits of what failure actually means — lost money, wasted time, public embarrassment — and recognize these are costs of the game, not existential threats.",
+      "chapter": "Bonus",
+      "section": "The 69 Core Musk Methods — Methods 58-60"
+    },
+    {
+      "id": 133,
+      "principle": "The 69 Core Methods — Commitment",
+      "question": "What does Method 61 ('double down — push your chips back in') represent as a strategic principle?",
+      "short_answer": "When your mission is important, exit points are traps. The right move after a partial success is to reinvest capital and effort into the next, harder level rather than extracting wealth and stopping.",
+      "elaborated_answer": "Musk applied this literally at every major financial exit: Zip2 proceeds → PayPal, PayPal proceeds → SpaceX/Tesla/SolarCity. Each time, conventional wisdom said 'you've won, protect what you have.' His counter-logic: if the mission matters, the work isn't done. Reinvesting compounds the impact. Stopping at a partial win, by contrast, leaves the actual goal unfinished and transfers the initiative to others. He also applies this to adversity — when Tesla was nearly bankrupt in 2008, doubling down (investing his last dollar) was the strategy that saved it.",
+      "chapter": "Bonus",
+      "section": "The 69 Core Musk Methods — Methods 61-66"
+    },
+    {
+      "id": 134,
+      "principle": "Recommended Reading — Philosophy",
+      "question": "Why does Musk consider 'The Hitchhiker's Guide to the Galaxy' a book of philosophy — and what is the core philosophical idea he draws from it?",
+      "short_answer": "The universe is the answer — the hard part is figuring out the right questions to ask of it. The book satirizes bureaucracy as a barrier to meaning, and shows that properly formulating the question matters more than finding the answer.",
+      "elaborated_answer": "Musk reads Adams's comedy as a genuine philosophical statement about epistemology. The 'answer to the ultimate question of life, the universe, and everything' being '42' is a joke that makes a serious point: answers are meaningless without the right question. This maps directly to his own philosophy of curiosity — we must expand consciousness not to find answers, but to become capable of asking the right questions of the universe. The book's absurdist bureaucracy also resonates: Earth is destroyed by a clerical error, which Musk sees as a warning about what happens when rules and processes lose connection to purpose.",
+      "chapter": "Bonus",
+      "section": "Recommended Reading — Fiction"
+    },
+    {
+      "id": 135,
+      "principle": "Recommended Reading — History",
+      "question": "What is Musk's key takeaway from Edward Gibbon's 'Decline and Fall of the Roman Empire' — and how does it connect to his urgency about technological progress?",
+      "short_answer": "Rome had advanced roads, aqueducts, and indoor plumbing — and then forgot how to build all of them. Technology is not permanent. Civilizations can and do regress.",
+      "elaborated_answer": "Musk reads Gibbon as a warning against complacency. Rome's infrastructure was comparable to modern standards in some ways — their roads and water systems were engineering achievements not matched again for over a thousand years after Rome's fall. And yet that knowledge was lost. The knowledge didn't disappear because it was physically destroyed — it disappeared because the social structures that maintained and transmitted it collapsed. This reinforces Musk's broader argument: technological progress is not a ratchet. Without active maintenance and advancement, it reverses. This is one of the intellectual foundations of his urgency around SpaceX and Tesla.",
+      "chapter": "Bonus",
+      "section": "Recommended Reading — History"
+    },
+    {
+      "id": 136,
+      "principle": "Recommended Reading — AI Risk",
+      "question": "Why does Musk recommend Asimov's 'Foundation' series — and what is 'Asimov's Zeroth Law' that he references?",
+      "short_answer": "Foundation is about preserving civilization through a coming dark age. Asimov's Zeroth Law: take the set of actions most likely to support the humanity of the future.",
+      "elaborated_answer": "Musk's reading of Foundation is strategic: the story is about a group of scholars who recognize civilization's imminent decline and organize to shorten the resulting dark age from 30,000 years to 1,000 years. He sees this as directly applicable — not as prediction, but as mental model. If there is some probability of a dark age (from war, AI misalignment, or other civilizational risks), the rational response is to build systems that preserve civilization's seed so recovery is faster and more complete. His Mars colonization drive is partly this logic: a self-sustaining human civilization on Mars ensures no single Earth-based catastrophe can extinguish everything.",
+      "chapter": "Bonus",
+      "section": "Recommended Reading — Fiction"
+    },
+    {
+      "id": 137,
+      "principle": "The 69 Core Methods — Communication",
+      "question": "What is Method 50 — 'use simple, clear, humble terms' — and how does it connect to the acronym ban at SpaceX?",
+      "short_answer": "Simple language reduces friction, increases comprehension, and forces clearer thinking. The acronym ban is a direct application: if a term requires explanation, it impedes rather than aids communication.",
+      "elaborated_answer": "Musk's communication philosophy is aligned with his engineering philosophy: minimize unnecessary complexity. Language that requires decoding — acronyms, jargon, bureaucratic phrasing — adds cognitive overhead, excludes new people, and creates ambiguity. His 'simple, clear, humble terms' rule also has a thinking benefit: if you can't explain something simply, you probably don't fully understand it. The humility component is important too — using complex or jargon-heavy language is often a status signal, not an efficiency tool. Musk treats communication as engineering: optimize for signal transmission, minimize noise and overhead.",
+      "chapter": "Bonus",
+      "section": "The 69 Core Musk Methods — Methods 50-57"
+    },
+    {
+      "id": 138,
+      "principle": "The 69 Core Methods — Growth",
+      "question": "What does Musk's Method 3 mean — 'you can teach yourself anything; read widely; talk to experts'?",
+      "short_answer": "Self-education through books and expert conversations is sufficient to develop deep competence in nearly any domain — credentials and formal degrees are not the only path to expertise.",
+      "elaborated_answer": "Musk is a living demonstration of this principle. He had no aerospace background when he started SpaceX — he self-educated through textbooks and by calling leading aerospace engineers to borrow their engine manuals. He had no automotive manufacturing background when Tesla was founded — he learned by living on the production floor for three years. His method: read broadly to build the foundational map, read deeply in the specific domain, and talk to domain experts who can accelerate learning and correct misconceptions. He argues most people dramatically underestimate how much they can learn through this method — and self-limit before they start.",
+      "chapter": "Bonus",
+      "section": "The 69 Core Musk Methods — Methods 1-12"
+    },
+    {
+      "id": 139,
+      "principle": "Colonizing the Galaxy",
+      "question": "What does Musk mean by the Kardashev scale — and where does he estimate humanity currently sits on it?",
+      "short_answer": "The Kardashev scale measures civilizational advancement by energy harnessed: Level 1 = all planetary energy, Level 2 = all solar energy, Level 3 = all galactic energy. Musk estimates we've harnessed about 1–2% of Earth's available energy — barely started on Level 1.",
+      "elaborated_answer": "The Kardashev scale gives a frame for thinking about civilization in cosmic terms. We are not just 'early stage' — we are early in Level 1 of a three-level scale, where Level 2 involves harnessing something like a billion times more energy than we currently use, and Level 3 is trillions of times more. This perspective reframes what's possible: the difference between today's civilization and a Level 2 civilization is approximately the difference between a campfire and a star. Musk uses this scale to argue that the current era — despite its problems — is just the very beginning of what human civilization might ultimately become, if we don't extinguish ourselves first.",
+      "chapter": "Bonus",
+      "section": "Becoming Multiplanetary — Colonizing the Galaxy"
+    },
+    {
+      "id": 140,
+      "principle": "Building the New World",
+      "question": "What historical analogy does Musk use to explain how reusable rockets will unleash entrepreneurial energy — comparable to what the transcontinental railroad did for the American West?",
+      "short_answer": "The Union Pacific Railroad made the American West accessible — nobody predicted Silicon Valley, Hollywood, or California's population growth. Reusable rockets are the equivalent breakthrough for space. Once the infrastructure exists, unpredictable opportunity follows.",
+      "elaborated_answer": "Musk's insight is that breakthrough infrastructure creates opportunity that nobody can predict in advance. When the transcontinental railroad was built, planners could not have imagined Gold Rush California, the film industry, or the technology economy. The enabling infrastructure created conditions for entrepreneurial energy to discover and build things that hadn't yet been imagined. Musk explicitly applies this to Mars: he doesn't know what entrepreneurs will build on Mars — iron foundries, pizza restaurants, software companies — but he is confident that once access exists, the unpredictable human capacity for innovation and commerce will fill it. His job is building the railroad, not designing what comes after.",
+      "chapter": "Bonus",
+      "section": "Becoming Multiplanetary — Building the New World"
+    }
+  ]
+}

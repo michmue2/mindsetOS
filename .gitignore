@@ -1,0 +1,10 @@
+# PDFs (large, copyrighted source material)
+*.pdf
+
+# macOS
+.DS_Store
+**/.DS_Store
+
+# Editor
+.vscode/
+.idea/
