@@ -1,0 +1,187 @@
+{
+  "title": "Poor Charlie's Almanack — Mental Model Quiz: Chapters 1–2",
+  "source": "Poor Charlie's Almanack by MM (2005)",
+  "part": "Chapters 1–2: Portrait & The MM Approach",
+  "questions": [
+    {
+      "id": 141,
+      "principle": "Rationality as the Foundation of Success",
+      "question": "When asked to boil his success down to a single word, MM chose 'rational.' Why is rationality a more fundamental explanation for his success than intelligence or hard work alone?",
+      "short_answer": "Rationality means consistently acting on what is actually true rather than on what is comfortable, popular, or emotionally appealing — a discipline that intelligence and effort alone do not guarantee.",
+      "elaborated_answer": "Many intelligent, hard-working people still make poor decisions because they let ego, social pressure, or wishful thinking override clear analysis. MM's rationality means he applies logic to the actual evidence in front of him, not to a flattering or convenient version of it. Warren Buffett noted that MM 'comes equipped for rationality' and applies it specifically in business, suggesting it is both a temperamental trait and a deliberate practice. Rationality is upstream of every other good decision-making habit: without it, preparation and knowledge produce only sophisticated-sounding mistakes.",
+      "chapter": "Chapter 1: A Portrait",
+      "section": "Chapter 1 — Secrets of Success (Buffett Q&A)"
+    },
+    {
+      "id": 142,
+      "principle": "Financial Independence as a Means, Not an End",
+      "question": "MM worked hard to earn financial independence early in his career, eventually leaving law practice once he could afford to. What does this reveal about his underlying philosophy regarding wealth?",
+      "short_answer": "MM pursued wealth as a tool for independence and autonomy, not as an end in itself — mirroring his hero Benjamin Franklin, who used self-made wealth to pursue what he considered truly important work.",
+      "elaborated_answer": "MM explicitly said, 'I wanted to get rich so I could be independent, like Lord John Maynard Keynes.' This framing is counterintuitive in a world that often treats wealth accumulation as the ultimate goal. For MM, money was the ticket out of a system that constrained his time (billable hours, seniority-based earnings) and into a life where his time and intellect could be directed by his own judgment. Franklin did the same — achieving financial independence in printing so he could devote himself to science, public service, and invention. The implication is that the design of your financial life should be driven by what you actually want to do with your freedom, not by maximising the number itself.",
+      "chapter": "Chapter 1: A Portrait",
+      "section": "Chapter 1 — Early Career and Wealth Building"
+    },
+    {
+      "id": 143,
+      "principle": "Learning from the Eminent Dead",
+      "question": "MM described a practice of making friends with 'the eminent dead.' What does this mean in practice, and why does he consider it superior to simply learning abstract concepts?",
+      "short_answer": "Studying the lives of great thinkers and doers — not just their ideas — anchors abstract principles in vivid, memorable human context, making them more likely to be genuinely understood and applied.",
+      "elaborated_answer": "MM argued that tying great ideas to the personalities and biographies of those who developed them creates far deeper learning than a list of principles ever could. He said, 'I think you learn economics better if you make Adam Smith your friend.' When you know the challenges Franklin faced, the errors he corrected, and the character he built, his wisdom becomes a living model rather than a platitude. This approach leverages narrative memory — humans are wired to remember stories and people far better than abstractions. It also provides a quality filter: people who achieved great things through sound thinking, over a lifetime, offer a more reliable guide than fashionable theories that have never been tested by reality.",
+      "chapter": "Chapter 1: A Portrait",
+      "section": "Chapter 1 — The Benjamin Franklin Influence"
+    },
+    {
+      "id": 144,
+      "principle": "Integrity as a Compounding Asset",
+      "question": "MM's daughter recalled that his ethical teaching often took the form of 'Downward Spiral Tales' — stories showing how a single wrong choice cascades into catastrophic loss. What mental model does this teaching method reflect?",
+      "short_answer": "It reflects second-order thinking: understanding that actions have consequences beyond the immediate, and that ethical breaches tend to compound negatively just as good practices compound positively.",
+      "elaborated_answer": "The 'Downward Spiral Tale' is not merely moral instruction — it is a demonstration of compounding applied to character. MM understood that a cover-up is always worse than the original mistake, that small compromises invite larger ones, and that reputation, once damaged, is far harder to rebuild than to maintain. This maps directly onto his investment thinking: just as he sought businesses with 'moats' that widen over time, he sought a personal character that was self-reinforcing in the right direction. His example of the financial officer who confessed a costly error — and was kept on precisely because of the confession — shows that trustworthiness is itself a durable competitive advantage. MM noted: 'I think track records are very important. If you start early trying to have a perfect one in some simple thing like honesty, you're well on your way to success.'",
+      "chapter": "Chapter 1: A Portrait",
+      "section": "Chapter 1 — Family Values and Ethical Formation"
+    },
+    {
+      "id": 145,
+      "principle": "Choosing the Right Partners",
+      "question": "MM advised his law firm's attorneys: 'You don't need to take the last dollar' and 'Choose clients as you would choose friends.' Why is over-extraction from a counterparty a strategic error, not just an ethical one?",
+      "short_answer": "Extracting the last dollar damages the trust and goodwill that make long-term relationships possible, destroying more future value than is gained in the short term.",
+      "elaborated_answer": "MM's warning against taking the last dollar reflects his understanding that business relationships are repeated games, not one-shot transactions. When you squeeze a counterparty to the limit, you signal that you cannot be trusted and will exploit any information or power advantage you have — which makes future cooperation more costly or impossible. His own example is instructive: when buying notes from two elderly women at a discount, he paid face value anyway; when his partner set a price MM thought too low, he corrected it upward and paid more. Both actions cost money in the short run but built a reputation for fair dealing that is worth far more over a lifetime. MM also understood that who you associate with shapes who you become, so selecting partners and clients by character is an investment in your own future character.",
+      "chapter": "Chapter 1: A Portrait",
+      "section": "Chapter 1 — Munger Tolles and Professional Standards"
+    },
+    {
+      "id": 146,
+      "principle": "Multiple Mental Models — The Latticework Approach",
+      "question": "MM criticises relying on a single academic discipline to understand the world, comparing it to a man with a hammer who sees every problem as a nail. What does he propose instead, and why is the alternative more powerful?",
+      "short_answer": "MM proposes building a 'latticework' of roughly one hundred mental models drawn from every major discipline — mathematics, physics, biology, psychology, economics, and more — so that complex problems can be analysed from multiple angles simultaneously.",
+      "elaborated_answer": "No single discipline captures the full complexity of real-world systems. A purely economic analysis of a business misses the psychological biases of its customers, the biological-style competition dynamics of its industry, the engineering constraints of its production, and the second-order effects any change will trigger. MM's latticework approach treats each discipline as a lens that reveals certain features and conceals others; by using many lenses together, the full picture becomes visible. He drew this insight partly from physics, which he admired for demonstrating how powerful a well-chosen model can be. The latticework is also self-reinforcing: ideas from one discipline illuminate another, and understanding a concept in multiple contexts deepens mastery of each. This is why he argues that the best preparation is not specialisation but breadth combined with deep fluency in each area.",
+      "chapter": "Chapter 2: The MM Approach",
+      "section": "Chapter 2 — Multiple Mental Models"
+    },
+    {
+      "id": 147,
+      "principle": "The Lollapalooza Effect",
+      "question": "MM coined the term 'Lollapalooza Effect' to describe a particular kind of outcome. What is it, and why does it matter for both identifying great investments and understanding catastrophic failures?",
+      "short_answer": "A Lollapalooza Effect occurs when multiple independent forces all operate in the same direction simultaneously, producing outcomes that are far larger — positive or negative — than any single factor could generate alone, often behaving more like a nuclear chain reaction than simple addition.",
+      "elaborated_answer": "Most analytical frameworks treat factors as additive: if A adds 5% and B adds 3%, the total is 8%. But MM observed that when several powerful forces align, the interaction is multiplicative or even exponential — like a critical mass in physics. A business with a strong brand, network effects, switching costs, and pricing power does not merely perform the sum of those advantages; it creates a self-reinforcing fortress. Equally, when multiple psychological biases operate together — say, social proof, authority bias, and commitment/consistency — the resulting misjudgement can be catastrophically wrong. This is why MM insists on thinking through all relevant models simultaneously rather than sequentially: you cannot spot a Lollapalooza by examining factors one at a time. He also notes the reverse — when forces conflict, you get trade-offs that must be navigated, and failing to see the trade-offs is equally dangerous.",
+      "chapter": "Chapter 2: The MM Approach",
+      "section": "Chapter 2 — The Lollapalooza Effect"
+    },
+    {
+      "id": 148,
+      "principle": "Inversion — Thinking Backwards",
+      "question": "MM, following the mathematician Jacobi's directive to 'Invert, always invert,' often focuses first on what to avoid before considering what to do. Why is starting with the negative more reliable than starting with the positive?",
+      "short_answer": "Identifying and eliminating catastrophic outcomes is more tractable and more reliable than predicting the best path forward, because failures tend to have clearer and more consistent causes than successes.",
+      "elaborated_answer": "MM's favourite expression of this principle is: 'All I want to know is where I'm going to die, so I'll never go there.' The logic is that disasters — financial ruin, reputational collapse, health catastrophe — usually arise from a limited set of identifiable causes: dishonesty, leverage, poor character in partners, ignoring obvious risks. By ruling these out first, you dramatically constrain the solution space and avoid the most common and costly errors. In contrast, trying to reason forward to the optimal solution requires prediction of complex, often unpredictable futures. Inversion is also valuable because it overcomes confirmation bias: asking 'how could this fail?' forces you to take seriously evidence you might otherwise dismiss. MM applies this to investment (what could destroy this business?), to life decisions (what behaviours reliably produce miserable outcomes?), and to problem-solving generally.",
+      "chapter": "Chapter 2: The MM Approach",
+      "section": "Chapter 2 — Discipline, Patience, and Inversion"
+    },
+    {
+      "id": 149,
+      "principle": "Circle of Competence",
+      "question": "MM uses the parable of Max Planck and his chauffeur to distinguish between two kinds of knowledge. What is the distinction, and why does it matter for investing and decision-making?",
+      "short_answer": "True knowledge (Planck's) can withstand unexpected challenges and novel questions; surface knowledge (the chauffeur's) is fluent recitation that collapses under cross-examination. Operating outside your true circle of competence is one of the most reliable ways to produce catastrophic mistakes.",
+      "elaborated_answer": "The chauffeur had heard Planck's lecture so many times he could recite it perfectly — but when a physicist asked an unexpected question, he had no underlying model to draw on and had to dodge. In business and investing, many people mistake fluency with facts or vocabulary for genuine understanding. MM's warning is that acting on chauffeur-knowledge in high-stakes situations is extremely dangerous, because the world will eventually ask you a question your memorised script cannot answer. He addresses this by confining his investments to areas where he has genuinely earned mastery through decades of study and experience. He also applies it to self-assessment: the hardest and most important discipline is knowing exactly where your competence ends. The corollary is that within your circle, you should act with great confidence and concentration; outside it, extreme caution or abstention is warranted.",
+      "chapter": "Chapter 2: The MM Approach",
+      "section": "Chapter 2 — Circle of Competence"
+    },
+    {
+      "id": 150,
+      "principle": "Extreme Patience Combined with Extreme Decisiveness",
+      "question": "MM describes his investment approach as 'extreme patience combined with extreme decisiveness.' Most people treat patience and decisiveness as opposites. Why does MM see them as complementary, and what does this pairing produce?",
+      "short_answer": "Patience means waiting until the odds are overwhelmingly in your favour before acting; decisiveness means committing fully and immediately once those conditions are met. Together they produce concentrated, high-conviction positions taken rarely but powerfully.",
+      "elaborated_answer": "The Ted Williams analogy illustrates this precisely: Williams only swung at pitches in his 'best cells,' but when a fat pitch arrived in his sweet spot, he swung hard. For MM, the long periods of apparent inactivity are not laziness — they are the patient accumulation of knowledge and the disciplined avoidance of mediocre opportunities. When a genuinely superior situation appears, hesitation or half-measures waste the rarity of the moment. This is why MM does not take 'initial positions' or 'small speculative investments' — such behaviour signals uncertainty, which means the case for acting was not yet strong enough. He argues that a successful investment career boils down to only a handful of major decisions, so each one deserves both the patience of a long wait and the conviction of a full commitment. The discipline required to sustain long inactivity while remaining alert and ready is itself a rare and valuable temperamental quality.",
+      "chapter": "Chapter 2: The MM Approach",
+      "section": "Chapter 2 — Discipline and Patience"
+    },
+    {
+      "id": 151,
+      "principle": "Sit-on-Your-Ass Investing and Concentrated Positions",
+      "question": "MM argues that a portfolio of three companies is 'plenty of diversification' and explicitly favours concentrated, long-held positions over broad diversification. What is the logic behind this counterintuitive position?",
+      "short_answer": "Genuine understanding of a business sufficient to make a high-conviction bet is rare and hard-won; spreading capital thinly across many positions dilutes that edge while incurring transaction costs, taxes, and the compounding drag of frequent decision-making.",
+      "elaborated_answer": "Conventional investment wisdom advocates diversification as protection against uncertainty. But MM's point is that if you genuinely understand why a business is exceptional and durable, diversifying away from it does not reduce risk — it reduces returns for the illusion of safety. He calls it 'sit on your ass investing' and notes its concrete benefits: lower brokerage costs, less exposure to market noise and bad advice, and the tax system compounding at one to three percentage points per annum because unrealised gains are not taxed. The deeper logic is that truly great businesses with durable competitive advantages are rare; finding one deserves a large commitment, not a cautious toe-dip. MM and Buffett also argue that most investors make their worst mistakes by over-trading — reacting to market prices rather than business fundamentals. Concentrated patience lets the business's compounding do the work.",
+      "chapter": "Chapter 2: The MM Approach",
+      "section": "Chapter 2 — Sit-on-Your-Ass Investing"
+    },
+    {
+      "id": 152,
+      "principle": "Competitive Advantage (The Moat)",
+      "question": "MM and Buffett use the metaphor of a 'moat' to describe a business's competitive advantage, and say the moat must be widened every year. Why is a static moat insufficient, and what does 'widening' look like in practice?",
+      "short_answer": "A static moat is always being eroded by competitive forces, technological change, and shifting customer preferences; only a moat that actively grows — through expanding brand strength, lower costs, network effects, or switching costs — provides durable protection.",
+      "elaborated_answer": "MM is deeply influenced by Darwinian thinking about competitive destruction: most businesses, over long enough time horizons, are eventually displaced. A moat that merely maintains itself is a moat that is slowly losing ground relative to the forces attacking it. Widening means the business is becoming harder to compete with every year — its brand more trusted, its distribution more entrenched, its cost advantage more pronounced, or its network more valuable. MM considers 'competitive destruction' forces carefully in every analysis, and this is why he and Buffett are so selective: the businesses they buy must have a plausible story for why they will still be dominant in twenty or thirty years. He rejects businesses with 'tenuous' moats entirely, because he cannot reliably evaluate them — and in his framework, an investment you cannot evaluate properly is not an investment at all, it is speculation.",
+      "chapter": "Chapter 2: The MM Approach",
+      "section": "Chapter 2 — Investment Evaluation and the Moat"
+    },
+    {
+      "id": 153,
+      "principle": "Price vs. Value — A Great Business at a Fair Price",
+      "question": "MM is credited with shifting Berkshire's approach from buying fair businesses at great prices (pure Graham style) to buying great businesses at fair prices. Why is this shift significant, and what insight drove it?",
+      "short_answer": "A truly great business compounds value over time at rates that make the entry price secondary; a mediocre business bought cheaply still eventually disappoints because its underlying economics keep deteriorating.",
+      "elaborated_answer": "Benjamin Graham's original approach focused on buying statistically cheap assets — businesses trading below their liquidation value — and selling once the price recovered to fair value. MM understood that this approach treats a business as a static asset rather than a compounding machine. A truly superior business — one with durable competitive advantages, excellent management, and reinvestment opportunities at high returns — does not need to be bought cheaply to produce outstanding results, because time itself works in the investor's favour as the business's intrinsic value keeps rising. Conversely, a mediocre business bought at a 'great price' requires the investor to be right about timing (will it recover?) and to exit before the underlying weakness reasserts itself. MM helped Buffett see that patience combined with quality is more powerful than value combined with mediocrity. The key discipline this demands is the willingness to pay what appears to be a full price when the underlying business quality is genuinely exceptional.",
+      "chapter": "Chapter 2: The MM Approach",
+      "section": "Chapter 2 — Price vs. Value"
+    },
+    {
+      "id": 154,
+      "principle": "Preparation Over Insight — The 'Will to Prepare'",
+      "question": "MM argues that 'more important than the will to win is the will to prepare.' Why does he rank preparation above the desire for success, given that motivation is often cited as the critical factor in achievement?",
+      "short_answer": "The will to win is nearly universal; preparation is what differentiates those who actually succeed. Without preparation, motivation produces only energetic mediocrity.",
+      "elaborated_answer": "Almost everyone wants to win, succeed, or be right. The scarce resource is not desire but the disciplined, unglamorous work of building genuine understanding before you need it. MM models this in his own life: he spent decades becoming self-taught across ten or more disciplines — chemistry, psychology, economics, physics, biology, history — before applying that knowledge to investments. This 'prepayment' of effort meant that when an opportunity appeared, he could analyse it faster and more reliably than anyone who was learning on the job. He also understood the asymmetry: poor outcomes caused by genuinely uncontrollable circumstances are excusable, but poor outcomes caused by inadequate preparation are not, because preparation is within your control. The corollary is that the time spent apparently 'doing nothing' — reading, thinking, building mental models — is actually the core of the work, not a precursor to it.",
+      "chapter": "Chapter 2: The MM Approach",
+      "section": "Chapter 2 — Preparation and Lifelong Learning"
+    },
+    {
+      "id": 155,
+      "principle": "Intellectual Humility and the Circle of Competence",
+      "question": "MM's investing principles include: 'Never fool yourself, and remember that you are the easiest person to fool.' Why is self-deception a particular danger for intelligent, successful people?",
+      "short_answer": "Intelligent people are better at constructing convincing rationalisations for whatever they already believe, making their self-deceptions more sophisticated and harder to detect — both by themselves and others.",
+      "elaborated_answer": "MM observed this dynamic throughout his career: people with strong analytical abilities do not make fewer errors of self-interest or confirmation bias — they make the same errors but dress them up in more elaborate reasoning. The danger compounds with success, because a track record of being right creates confidence that can slide into overconfidence, narrowing the circle of what you are willing to question. MM's antidote involves several practices: staying within a well-defined circle of competence (so you do not venture into areas where your knowledge is more chauffeur-level than genuine), actively seeking disconfirming evidence (what would have to be true for me to be wrong?), and resisting the craving for false precision or certainty. He also noted: 'Acknowledging what you don't know is the dawning of wisdom' — a posture that is psychologically uncomfortable but epistemically essential.",
+      "chapter": "Chapter 2: The MM Approach",
+      "section": "Chapter 2 — Intellectual Humility"
+    },
+    {
+      "id": 156,
+      "principle": "Psychological Factors in Misjudgement",
+      "question": "MM treats psychology as one of the most important disciplines in his mental model toolkit, yet it was never taught to him formally. Why does he consider human psychological tendencies — particularly subconscious ones — so critical to investment and business analysis?",
+      "short_answer": "Subconscious psychological tendencies operate reliably and predictably in both yourself and in the people whose behaviour determines a business's success; ignoring them means systematically miscalculating both your own judgement and the dynamics of any market you are analysing.",
+      "elaborated_answer": "MM's framework for analysis has two tracks: the rational evaluation of real interests and probabilities, and the evaluation of subconscious psychological influences that cause people — including himself — to reach incorrect conclusions. He observed that many investment mistakes are not failures of information or intelligence but failures of psychological calibration: buying into a popular narrative (social proof), over-weighting recent experience (availability bias), refusing to change a position after sinking cost into it (commitment/consistency), or acting on Mr Market's manic-depressive swings rather than on business fundamentals. By studying these tendencies as systematically as he studied physics or biology, MM could both correct for them in his own thinking and identify situations where they were creating mispricing in the market — the conditions under which a prepared, rational investor has an enormous edge over the crowd.",
+      "chapter": "Chapter 2: The MM Approach",
+      "section": "Chapter 2 — Psychological Models and Misjudgement"
+    },
+    {
+      "id": 157,
+      "principle": "Honesty as Policy, Not Just Morality",
+      "question": "MM said of his ethical standards: 'I don't think we deserve a lot of credit for that because we early understood that we'd make more money that way.' What does this self-assessment reveal about the relationship between ethics and self-interest in MM's framework?",
+      "short_answer": "MM argues that honesty and integrity are also excellent long-run business strategies — not despite, but because they are ethical — and that recognising this alignment makes good behaviour more reliable and sustainable than relying on moral willpower alone.",
+      "elaborated_answer": "Most ethical frameworks treat honesty as a constraint on self-interest: you behave well because it is right, even at personal cost. MM's insight is that this framing misses the real structure of the game. Over a long career, a reputation for absolute reliability and fairness compounds: clients bring you better deals, partners trust you without costly verification, counterparties accept your word, and the entire ecosystem around you becomes higher quality. He quoted Franklin: 'He didn't say honesty was the best morals, he said it was the best policy.' This is not cynicism — MM also expressed hope that he would behave well even if it didn't pay — but it is a more durable foundation for good behaviour than willpower. When ethics and self-interest are aligned, you do not have to fight your incentives to do the right thing. Louis Vincenti's rule captures it simply: 'Tell the truth, and you won't have to remember your lies.'",
+      "chapter": "Chapter 2: The MM Approach",
+      "section": "Chapter 2 — Honesty and Integrity"
+    },
+    {
+      "id": 158,
+      "principle": "Lifelong Learning as Competitive Advantage",
+      "question": "MM stated: 'The game is to keep learning, and I don't think people are going to keep learning who don't like the learning process.' What does framing learning as 'the game' reveal about his philosophy of how competitive advantage is built and maintained over time?",
+      "short_answer": "Competitive advantage in investing and in life is not a fixed asset — it compounds or decays depending on whether you are continuously updating your models, correcting your errors, and expanding your understanding. Only those who genuinely enjoy learning sustain this over decades.",
+      "elaborated_answer": "MM noted that Warren Buffett had become 'one hell of a lot better investor' since the day they met, and that MM himself had improved too. This observation cuts against a common assumption — that wisdom is something you acquire in youth and then deploy in maturity. Instead, MM sees the accumulation of knowledge and corrected mental models as an ongoing process with compounding returns: each insight makes the next one easier to reach. This is why he advocates voracious reading across disciplines, why he cites learning from the mistakes of others as particularly valuable (vicarious learning is cheaper than personal failure), and why he treats curiosity not as a personality quirk but as a core professional asset. The constraint is motivation: someone who finds learning effortful or joyless will inevitably slow down or stop, while someone who finds it intrinsically rewarding will keep improving indefinitely — and the gap between them will widen with every passing year.",
+      "chapter": "Chapter 2: The MM Approach",
+      "section": "Chapter 2 — Lifelong Learning"
+    },
+    {
+      "id": 159,
+      "principle": "Independence of Thought — Resisting the Herd",
+      "question": "MM is described as willing to swim 'imperturbably against the tide of popular opinion — indefinitely, if necessary.' Why is genuine independence of thought so rare, and why does MM consider it a necessary (not merely helpful) quality for superior investment performance?",
+      "short_answer": "Because markets aggregate the opinions of the majority, merely average performance is the guaranteed result of following consensus thinking; only independent thought — even when it produces temporary social discomfort — can produce above-average results.",
+      "elaborated_answer": "MM's principle checklist explicitly states: 'Mimicking the herd invites regression to the mean.' The mathematical logic is simple: if you hold the same portfolio as everyone else, you will, at best, perform as well as everyone else. Superior returns require being right when others are wrong, which means forming independent judgements and maintaining them under social pressure. MM's temperament makes this easier for him than for most — he has an unusual degree of comfort with being the lone dissenter — but he also frames it as a discipline: 'Just because other people agree or disagree with you doesn't make you right or wrong — the only thing that matters is the correctness of your analysis and judgment.' This principle is deeply connected to his emphasis on psychological models: the greatest enemy of independent thought is not stupidity but social conformity pressures, which are powerful even (especially) in groups of intelligent, successful people.",
+      "chapter": "Chapter 2: The MM Approach",
+      "section": "Chapter 2 — Independence"
+    },
+    {
+      "id": 160,
+      "principle": "Opportunity Cost as the True Standard of Allocation",
+      "question": "MM's investment principles state that 'highest and best use is always measured by the next best use (opportunity cost).' How does rigorous opportunity-cost thinking change investment and life decisions, compared to evaluating options in isolation?",
+      "short_answer": "Evaluating an option in isolation asks only 'Is this good?' Opportunity-cost thinking asks 'Is this better than everything else I could do with the same resources?' — a far more demanding and accurate standard that prevents mediocre decisions from crowding out exceptional ones.",
+      "elaborated_answer": "MM's principle that 'good ideas are rare — when the odds are greatly in your favour, bet heavily' only makes sense in an opportunity-cost framework. If you evaluate each investment solely on its own merits, a decent 8% return looks acceptable. But if the next best use of that capital is a 15% return in a business you understand deeply, the 8% decision is actually a loss. This is why MM argues for concentrated positions and long patience: holding cash or a mediocre position has a real cost equal to the forgone return on the best alternative. The same principle applies to time and attention. Every hour spent on something mediocre is an hour not spent building deeper competence or waiting for the exceptional opportunity. MM operationalised this through his 'three baskets' framework — yes, no, and too tough to understand — which forces rapid allocation of mental resources to only the most promising candidates.",
+      "chapter": "Chapter 2: The MM Approach",
+      "section": "Chapter 2 — Allocation and Opportunity Cost"
+    }
+  ]
+}
