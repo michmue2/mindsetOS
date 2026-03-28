@@ -2,7 +2,7 @@
   "name": "Mental Models",
   "short_name": "Mental Models",
   "description": "Study great minds, build sharper thinking.",
-  "start_url": "/",
+  "start_url": ".",
   "display": "standalone",
   "background_color": "#141412",
   "theme_color": "#141412",

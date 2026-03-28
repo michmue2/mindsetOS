@@ -1,14 +1,14 @@
 const CACHE = 'mindset-v2';
 const ASSETS = [
-  '/',
-  '/index.html',
-  '/manifest.json',
-  '/data/elon.json',
-  '/data/naval.json',
-  '/data/dalio.json',
-  '/icons/icon-192.png',
-  '/icons/icon-512.png',
-  '/icons/apple-touch-icon.png',
+  './',
+  './index.html',
+  './manifest.json',
+  './data/elon.json',
+  './data/naval.json',
+  './data/dalio.json',
+  './icons/icon-192.png',
+  './icons/icon-512.png',
+  './icons/apple-touch-icon.png',
 ];
 
 self.addEventListener('install', e => {
