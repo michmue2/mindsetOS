@@ -1069,6 +1069,46 @@
       align-items: center;
       justify-content: center;
     }
+
+    /* ── STAR BUTTON ── */
+    .star-btn {
+      position: absolute;
+      top: 12px;
+      right: 12px;
+      z-index: 10;
+      background: none;
+      border: none;
+      cursor: pointer;
+      padding: 8px;
+      -webkit-tap-highlight-color: transparent;
+      transition: transform 0.15s var(--spring);
+    }
+    .star-btn:active { transform: scale(0.78); }
+    .star-btn svg {
+      width: 20px;
+      height: 20px;
+      stroke: var(--text3);
+      fill: none;
+      stroke-width: 1.8;
+      stroke-linecap: round;
+      stroke-linejoin: round;
+      transition: stroke 0.15s, fill 0.15s;
+      display: block;
+    }
+    .star-btn.starred svg {
+      stroke: var(--gold);
+      fill: var(--gold);
+    }
+
+    /* ── FAVOURITES ENTRY ── */
+    .archetype-card-disabled {
+      opacity: 0.42;
+      cursor: default;
+    }
+    .archetype-card-disabled:active {
+      transform: none;
+      background: var(--surface);
+    }
   </style>
 </head>
 
@@ -1141,6 +1181,10 @@
           <div class="swipe-overlay swipe-left-overlay" id="left-overlay">
             <div class="swipe-label">Missed</div>
           </div>
+
+          <button class="star-btn" id="star-btn" aria-label="Save to favourites">
+            <svg viewBox="0 0 24 24"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>
+          </button>
 
           <div class="card-front" id="card-front">
             <div class="card-section-tag" id="card-section"></div>
@@ -1296,6 +1340,17 @@
       },
     ];
 
+    // ── FAVOURITES ARCHETYPE SENTINEL ────────────────────────────────────────────
+    const FAVORITES_ARCHETYPE = {
+      id: 'favorites',
+      name: 'Favourites',
+      emoji: '★',
+      color: '#B8860B',
+      bg: '#FEF9E8',
+      darkBg: '#2A2008',
+      description: 'Your saved principles',
+    };
+
     // ── SUPABASE CONFIG ───────────────────────────────────────────────────────────
     const SUPABASE_URL = 'https://icveuxduqepohgfbaaps.supabase.co';       // e.g. https://xxxx.supabase.co
     const SUPABASE_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImljdmV1eGR1cWVwb2hnZmJhYXBzIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzQ3NDUxMTksImV4cCI6MjA5MDMyMTExOX0.THChPZ7F3ld7BuMqmsnMM5r9VDUyJN81FurWX5prt24';  // anon/public key
@@ -1325,7 +1380,7 @@
             'Content-Type': 'application/json',
             'Prefer': 'resolution=merge-duplicates',
           },
-          body: JSON.stringify({ uid: UID, scores: state.scores, updated_at: new Date().toISOString() }),
+          body: JSON.stringify({ uid: UID, scores: state.scores, favorites: [...state.favorites], updated_at: new Date().toISOString() }),
         });
       } catch { }
     }
@@ -1346,6 +1401,11 @@
           state.scores[id] = { total: Math.max(l.total, r.total), correct: Math.max(l.correct, r.correct) };
         }
         localStorage.setItem('mm_scores', JSON.stringify(state.scores));
+        // Merge favorites — union of local and remote
+        if (Array.isArray(rows[0].favorites)) {
+          for (const id of rows[0].favorites) state.favorites.add(id);
+          localStorage.setItem('mm_favorites', JSON.stringify([...state.favorites]));
+        }
       } catch { }
     }
     function copySyncLink() {
@@ -1366,6 +1426,7 @@
       cardIndex: 0,
       isRevealed: false,
       scores: {},
+      favorites: new Set(), // Set of card IDs (numbers)
     };
 
     // ── SCORES ───────────────────────────────────────────────────────────────────
@@ -1377,6 +1438,45 @@
       localStorage.setItem('mm_scores', JSON.stringify(state.scores));
       syncUp();
     }
+
+    // ── FAVOURITES ────────────────────────────────────────────────────────────────
+    function loadFavorites() {
+      try {
+        const arr = JSON.parse(localStorage.getItem('mm_favorites') || '[]');
+        state.favorites = new Set(arr);
+      } catch { state.favorites = new Set(); }
+    }
+    function saveFavorites() {
+      localStorage.setItem('mm_favorites', JSON.stringify([...state.favorites]));
+      syncUp();
+    }
+    function getFavoriteCards() {
+      const cards = [];
+      for (const a of ARCHETYPES) {
+        for (const card of (state.loaded[a.id] || [])) {
+          if (state.favorites.has(card.id)) cards.push(card);
+        }
+      }
+      return cards;
+    }
+    function updateStarBtn() {
+      const card = currentCard();
+      const btn = document.getElementById('star-btn');
+      if (!btn) return;
+      btn.classList.toggle('starred', !!card && state.favorites.has(card.id));
+    }
+    function toggleFavorite() {
+      const card = currentCard();
+      if (!card) return;
+      if (state.favorites.has(card.id)) {
+        state.favorites.delete(card.id);
+      } else {
+        state.favorites.add(card.id);
+      }
+      saveFavorites();
+      updateStarBtn();
+    }
+
     function getTotals() {
       let reviewed = 0, correct = 0;
       Object.values(state.scores).forEach(s => {
@@ -1410,6 +1510,7 @@
     // ── HOME ──────────────────────────────────────────────────────────────────────
     function renderHome() {
       loadScores();
+      loadFavorites();
       const { reviewed, correct } = getTotals();
       document.getElementById('total-reviewed').textContent = reviewed;
       document.getElementById('total-correct').textContent = correct;
@@ -1419,6 +1520,25 @@
       const isDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
       const list = document.getElementById('archetype-list');
       list.innerHTML = '';
+
+      // Favourites entry
+      const favCount = state.favorites.size;
+      const favBg = isDark ? FAVORITES_ARCHETYPE.darkBg : FAVORITES_ARCHETYPE.bg;
+      const favEl = document.createElement('div');
+      favEl.className = 'archetype-card' + (favCount === 0 ? ' archetype-card-disabled' : '');
+      favEl.innerHTML = `
+        <div class="archetype-avatar" style="background:${favBg};color:${FAVORITES_ARCHETYPE.color}">★</div>
+        <div class="archetype-info">
+          <div class="archetype-name">Favourites</div>
+          <div class="archetype-meta">${favCount === 0 ? 'Tap ★ on any card to save it' : `${favCount} principle${favCount === 1 ? '' : 's'} saved`}</div>
+          <div class="archetype-progress">
+            <div class="archetype-progress-fill" style="width:0%;background:${FAVORITES_ARCHETYPE.color}"></div>
+          </div>
+        </div>
+        <div class="archetype-arrow">${favCount > 0 ? '›' : ''}</div>
+      `;
+      if (favCount > 0) favEl.addEventListener('click', () => openModePicker('favorites'));
+      list.appendChild(favEl);
 
       ARCHETYPES.forEach(a => {
         const cards = state.loaded[a.id] || [];
@@ -1449,6 +1569,7 @@
 
     // ── STUDY ─────────────────────────────────────────────────────────────────────
     function currentArchetype() {
+      if (state.currentId === 'favorites') return FAVORITES_ARCHETYPE;
       return ARCHETYPES.find(a => a.id === state.currentId);
     }
     function currentCard() {
@@ -1467,8 +1588,15 @@
     // ── MODE PICKER ───────────────────────────────────────────────────────────────
     function openModePicker(archetypeId) {
       state.pendingId = archetypeId;
-      const archetype = ARCHETYPES.find(a => a.id === archetypeId);
-      document.getElementById('mode-sheet-sub').textContent = archetype ? archetype.name : '';
+      let subText;
+      if (archetypeId === 'favorites') {
+        const n = state.favorites.size;
+        subText = `Favourites · ${n} card${n === 1 ? '' : 's'}`;
+      } else {
+        const archetype = ARCHETYPES.find(a => a.id === archetypeId);
+        subText = archetype ? archetype.name : '';
+      }
+      document.getElementById('mode-sheet-sub').textContent = subText;
       document.getElementById('mode-backdrop').classList.add('open');
       document.getElementById('mode-sheet').classList.add('open');
     }
@@ -1483,7 +1611,9 @@
       state.cardIndex = 0;
       state.isRevealed = false;
       state.scores[archetypeId] = { total: 0, correct: 0 };
-      const raw = state.loaded[archetypeId] || [];
+      const raw = archetypeId === 'favorites'
+        ? getFavoriteCards()
+        : (state.loaded[archetypeId] || []);
       state.deck = mode === 'random' ? shuffle(raw) : raw.slice();
       saveScores();
       showScreen('study');
@@ -1526,6 +1656,8 @@
       // Ghost cards
       document.getElementById('ghost1').style.opacity = idx < total - 1 ? '1' : '0';
       document.getElementById('ghost2').style.opacity = idx < total - 2 ? '1' : '0';
+
+      updateStarBtn();
     }
 
     function revealCard() {
@@ -1803,7 +1935,14 @@
     // ── INIT ──────────────────────────────────────────────────────────────────────
     document.getElementById('sync-btn').addEventListener('click', copySyncLink);
 
+    // Star button — stop propagation so it doesn't trigger card tap/swipe
+    const _starBtn = document.getElementById('star-btn');
+    _starBtn.addEventListener('touchstart', e => e.stopPropagation(), { passive: true });
+    _starBtn.addEventListener('touchend',   e => e.stopPropagation(), { passive: true });
+    _starBtn.addEventListener('click',      e => { e.stopPropagation(); toggleFavorite(); });
+
     loadScores();
+    loadFavorites();
     preloadAll().then(async () => {
       await syncDown();
       renderHome();
