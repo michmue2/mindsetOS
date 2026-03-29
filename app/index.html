@@ -141,6 +141,42 @@ html, body {
 .home-header {
   padding: 60px 28px 20px;
   flex-shrink: 0;
+  position: relative;
+}
+.sync-btn {
+  position: absolute;
+  top: 60px;
+  right: 28px;
+  background: none;
+  border: none;
+  cursor: pointer;
+  padding: 4px;
+  color: var(--text3);
+  display: flex; align-items: center; justify-content: center;
+  opacity: 0.6;
+  transition: opacity 0.2s;
+}
+.sync-btn:hover { opacity: 1; }
+.sync-btn svg { width: 18px; height: 18px; stroke: currentColor; fill: none; stroke-width: 2; stroke-linecap: round; stroke-linejoin: round; }
+.sync-toast {
+  position: fixed;
+  bottom: 32px;
+  left: 50%;
+  transform: translateX(-50%) translateY(12px);
+  background: var(--text);
+  color: var(--bg);
+  font-size: 13px;
+  padding: 10px 18px;
+  border-radius: 20px;
+  white-space: nowrap;
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 0.2s, transform 0.2s;
+  z-index: 999;
+}
+.sync-toast.visible {
+  opacity: 1;
+  transform: translateX(-50%) translateY(0);
 }
 .home-label {
   font-size: 10px;
@@ -837,8 +873,12 @@ html, body {
   <div class="screen hidden" id="home">
     <div class="home-header">
       <div class="home-label">Mental Models</div>
+      <button class="sync-btn" id="sync-btn" title="Copy sync link">
+        <svg viewBox="0 0 24 24"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"/><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"/></svg>
+      </button>
       <h1 class="home-title">Study great minds,<br>build sharper thinking.</h1>
     </div>
+    <div class="sync-toast" id="sync-toast">Link copied — bookmark it to sync across devices</div>
     <div class="score-strip">
       <div class="score-item">
         <div class="score-num" id="total-reviewed">0</div>
@@ -1028,6 +1068,69 @@ const ARCHETYPES = [
   },
 ];
 
+// ── SUPABASE CONFIG ───────────────────────────────────────────────────────────
+const SUPABASE_URL = 'YOUR_SUPABASE_URL';       // e.g. https://xxxx.supabase.co
+const SUPABASE_KEY = 'YOUR_SUPABASE_ANON_KEY';  // anon/public key
+
+// ── USER ID ───────────────────────────────────────────────────────────────────
+function initUID() {
+  const param = new URLSearchParams(window.location.search).get('uid');
+  if (param) localStorage.setItem('mm_uid', param);
+  let uid = localStorage.getItem('mm_uid');
+  if (!uid) { uid = crypto.randomUUID(); localStorage.setItem('mm_uid', uid); }
+  return uid;
+}
+const UID = initUID();
+
+// ── SUPABASE SYNC ─────────────────────────────────────────────────────────────
+function supabaseReady() {
+  return SUPABASE_URL && !SUPABASE_URL.includes('YOUR_');
+}
+async function syncUp() {
+  if (!supabaseReady()) return;
+  try {
+    await fetch(`${SUPABASE_URL}/rest/v1/mm_scores`, {
+      method: 'POST',
+      headers: {
+        'apikey': SUPABASE_KEY,
+        'Authorization': `Bearer ${SUPABASE_KEY}`,
+        'Content-Type': 'application/json',
+        'Prefer': 'resolution=merge-duplicates',
+      },
+      body: JSON.stringify({ uid: UID, scores: state.scores, updated_at: new Date().toISOString() }),
+    });
+  } catch {}
+}
+async function syncDown() {
+  if (!supabaseReady()) return;
+  try {
+    const res = await fetch(
+      `${SUPABASE_URL}/rest/v1/mm_scores?uid=eq.${UID}&select=scores`,
+      { headers: { 'apikey': SUPABASE_KEY, 'Authorization': `Bearer ${SUPABASE_KEY}` } }
+    );
+    const rows = await res.json();
+    if (!Array.isArray(rows) || !rows.length) return;
+    const remote = rows[0].scores || {};
+    // Merge: take the max of local vs remote so neither device loses progress
+    for (const id of new Set([...Object.keys(state.scores), ...Object.keys(remote)])) {
+      const l = state.scores[id] || { total: 0, correct: 0 };
+      const r = remote[id]       || { total: 0, correct: 0 };
+      state.scores[id] = { total: Math.max(l.total, r.total), correct: Math.max(l.correct, r.correct) };
+    }
+    localStorage.setItem('mm_scores', JSON.stringify(state.scores));
+  } catch {}
+}
+function copySyncLink() {
+  const url = `${location.origin}${location.pathname}?uid=${UID}`;
+  navigator.clipboard.writeText(url).then(() => {
+    const toast = document.getElementById('sync-toast');
+    toast.classList.add('visible');
+    setTimeout(() => toast.classList.remove('visible'), 3000);
+  }).catch(() => {
+    prompt('Copy your sync link:', url);
+  });
+}
+
 // ── STATE ─────────────────────────────────────────────────────────────────────
 const state = {
   loaded: {},           // id → cards[]
@@ -1044,6 +1147,7 @@ function loadScores() {
 }
 function saveScores() {
   localStorage.setItem('mm_scores', JSON.stringify(state.scores));
+  syncUp();
 }
 function getTotals() {
   let reviewed = 0, correct = 0;
@@ -1469,8 +1573,13 @@ if ('serviceWorker' in navigator) {
 }
 
 // ── INIT ──────────────────────────────────────────────────────────────────────
+document.getElementById('sync-btn').addEventListener('click', copySyncLink);
+
 loadScores();
-preloadAll().then(() => renderHome());
+preloadAll().then(async () => {
+  await syncDown();
+  renderHome();
+});
 </script>
 </body>
 </html>
