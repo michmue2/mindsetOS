@@ -1277,6 +1277,42 @@
     </div>
   </div>
 
+  <!-- FILTER PICKER SHEET -->
+  <div class="mode-backdrop" id="filter-backdrop"></div>
+  <div class="mode-sheet" id="filter-sheet">
+    <div class="mode-sheet-handle-area">
+      <div class="mode-sheet-handle"></div>
+    </div>
+    <div class="mode-sheet-title">Which cards?</div>
+    <div class="mode-sheet-sub" id="filter-sheet-sub"></div>
+    <div class="mode-options">
+      <div class="mode-option" id="filter-all">
+        <div class="mode-option-icon">📚</div>
+        <div class="mode-option-info">
+          <div class="mode-option-label">All cards</div>
+          <div class="mode-option-desc" id="filter-all-desc">Every card in the deck</div>
+        </div>
+        <div class="mode-option-check"></div>
+      </div>
+      <div class="mode-option" id="filter-new">
+        <div class="mode-option-icon">✨</div>
+        <div class="mode-option-info">
+          <div class="mode-option-label">New only</div>
+          <div class="mode-option-desc" id="filter-new-desc">Cards you haven't seen yet</div>
+        </div>
+        <div class="mode-option-check"></div>
+      </div>
+      <div class="mode-option" id="filter-seen">
+        <div class="mode-option-icon">🔁</div>
+        <div class="mode-option-info">
+          <div class="mode-option-label">Review</div>
+          <div class="mode-option-desc" id="filter-seen-desc">Cards you've seen before</div>
+        </div>
+        <div class="mode-option-check"></div>
+      </div>
+    </div>
+  </div>
+
   <!-- BOTTOM SHEET (outside #app) -->
   <div class="sheet-backdrop" id="sheet-backdrop"></div>
   <div class="bottom-sheet" id="bottom-sheet">
@@ -1380,7 +1416,7 @@
             'Content-Type': 'application/json',
             'Prefer': 'resolution=merge-duplicates',
           },
-          body: JSON.stringify({ uid: UID, scores: state.scores, favorites: [...state.favorites], updated_at: new Date().toISOString() }),
+          body: JSON.stringify({ uid: UID, scores: state.scores, favorites: [...state.favorites], seen: state.seen, updated_at: new Date().toISOString() }),
         });
       } catch { }
     }
@@ -1406,6 +1442,13 @@
           for (const id of rows[0].favorites) state.favorites.add(id);
           localStorage.setItem('mm_favorites', JSON.stringify([...state.favorites]));
         }
+        // Merge seen — take max count per card
+        if (rows[0].seen && typeof rows[0].seen === 'object') {
+          for (const [id, count] of Object.entries(rows[0].seen)) {
+            state.seen[id] = Math.max(state.seen[id] || 0, count);
+          }
+          localStorage.setItem('mm_seen', JSON.stringify(state.seen));
+        }
       } catch { }
     }
     function copySyncLink() {
@@ -1427,6 +1470,8 @@
       isRevealed: false,
       scores: {},
       favorites: new Set(), // Set of card IDs (numbers)
+      seen: {},             // { [cardId]: viewCount }
+      pendingMode: null,    // 'sequential' | 'random' — held between mode→filter sheets
     };
 
     // ── SCORES ───────────────────────────────────────────────────────────────────
@@ -1449,6 +1494,13 @@
     function saveFavorites() {
       localStorage.setItem('mm_favorites', JSON.stringify([...state.favorites]));
       syncUp();
+    }
+    function loadSeen() {
+      try { state.seen = JSON.parse(localStorage.getItem('mm_seen') || '{}'); }
+      catch { state.seen = {}; }
+    }
+    function saveSeen() {
+      localStorage.setItem('mm_seen', JSON.stringify(state.seen));
     }
     function getFavoriteCards() {
       const cards = [];
@@ -1606,15 +1658,68 @@
       document.getElementById('mode-sheet').classList.remove('open');
     }
 
-    function startStudy(archetypeId, mode) {
+    function openFilterPicker(archetypeId, mode) {
+      state.pendingId   = archetypeId;
+      state.pendingMode = mode;
+
+      const archName = archetypeId === 'favorites'
+        ? 'Favourites'
+        : (ARCHETYPES.find(a => a.id === archetypeId)?.name || '');
+      document.getElementById('filter-sheet-sub').textContent =
+        `${archName} · ${mode === 'sequential' ? 'Sequential' : 'Randomised'}`;
+
+      // Compute live counts for each filter option
+      const raw = archetypeId === 'favorites'
+        ? getFavoriteCards()
+        : (state.loaded[archetypeId] || []);
+      const allCount  = raw.length;
+      const newCount  = raw.filter(c => !state.seen[c.id]).length;
+      const seenCount = raw.filter(c => (state.seen[c.id] || 0) > 0).length;
+
+      const fmt = (n, label) => `${n} card${n === 1 ? '' : 's'} ${label}`;
+      document.getElementById('filter-all-desc').textContent  = fmt(allCount,  'total');
+      document.getElementById('filter-new-desc').textContent  = fmt(newCount,  'not yet seen');
+      document.getElementById('filter-seen-desc').textContent = fmt(seenCount, 'reviewed before');
+
+      document.getElementById('filter-backdrop').classList.add('open');
+      document.getElementById('filter-sheet').classList.add('open');
+    }
+
+    function closeFilterPicker() {
+      document.getElementById('filter-backdrop').classList.remove('open');
+      document.getElementById('filter-sheet').classList.remove('open');
+    }
+
+    function startStudy(archetypeId, mode, filter = 'all') {
+      const raw = archetypeId === 'favorites'
+        ? getFavoriteCards()
+        : (state.loaded[archetypeId] || []);
+
+      // Apply filter
+      let filtered;
+      if (filter === 'new')  filtered = raw.filter(c => !state.seen[c.id]);
+      else if (filter === 'seen') filtered = raw.filter(c => (state.seen[c.id] || 0) > 0);
+      else filtered = raw;
+
+      // Guard against empty result
+      if (filtered.length === 0) {
+        const toast = document.getElementById('sync-toast');
+        const prev = toast.textContent;
+        toast.textContent = 'No cards match — try a different filter';
+        toast.classList.add('visible');
+        setTimeout(() => {
+          toast.classList.remove('visible');
+          setTimeout(() => { toast.textContent = prev; }, 220);
+        }, 2500);
+        openFilterPicker(archetypeId, mode);
+        return;
+      }
+
       state.currentId = archetypeId;
       state.cardIndex = 0;
       state.isRevealed = false;
       state.scores[archetypeId] = { total: 0, correct: 0 };
-      const raw = archetypeId === 'favorites'
-        ? getFavoriteCards()
-        : (state.loaded[archetypeId] || []);
-      state.deck = mode === 'random' ? shuffle(raw) : raw.slice();
+      state.deck = mode === 'random' ? shuffle(filtered) : filtered.slice();
       saveScores();
       showScreen('study');
       renderCard();
@@ -1637,6 +1742,10 @@
       document.getElementById('card-principle').textContent = card.principle || '';
       document.getElementById('card-question').textContent = card.question || '';
       document.getElementById('card-answer').textContent = card.short_answer || '';
+
+      // Track how many times this card has been seen
+      state.seen[card.id] = (state.seen[card.id] || 0) + 1;
+      saveSeen();
 
       const fc = document.getElementById('flashcard');
       fc.classList.remove('card-revealed');
@@ -1911,13 +2020,34 @@
     document.getElementById('mode-sequential').addEventListener('click', () => {
       const id = state.pendingId;
       closeModePicker();
-      startStudy(id, 'sequential');
+      openFilterPicker(id, 'sequential');
     });
 
     document.getElementById('mode-random').addEventListener('click', () => {
       const id = state.pendingId;
       closeModePicker();
-      startStudy(id, 'random');
+      openFilterPicker(id, 'random');
+    });
+
+    // ── FILTER PICKER HANDLERS ────────────────────────────────────────────────────
+    document.getElementById('filter-backdrop').addEventListener('click', closeFilterPicker);
+
+    document.getElementById('filter-all').addEventListener('click', () => {
+      const { pendingId, pendingMode } = state;
+      closeFilterPicker();
+      startStudy(pendingId, pendingMode, 'all');
+    });
+
+    document.getElementById('filter-new').addEventListener('click', () => {
+      const { pendingId, pendingMode } = state;
+      closeFilterPicker();
+      startStudy(pendingId, pendingMode, 'new');
+    });
+
+    document.getElementById('filter-seen').addEventListener('click', () => {
+      const { pendingId, pendingMode } = state;
+      closeFilterPicker();
+      startStudy(pendingId, pendingMode, 'seen');
     });
 
     // ── BUTTON HANDLERS ───────────────────────────────────────────────────────────
@@ -1943,6 +2073,7 @@
 
     loadScores();
     loadFavorites();
+    loadSeen();
     preloadAll().then(async () => {
       await syncDown();
       renderHome();
