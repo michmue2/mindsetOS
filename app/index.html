@@ -1538,9 +1538,11 @@
           state.scores[id] = { total: Math.max(l.total, r.total), correct: Math.max(l.correct, r.correct) };
         }
         localStorage.setItem('mm_scores', JSON.stringify(state.scores));
-        // Merge favorites — union of local and remote
+        // Merge favorites — union of local and remote (compound-key strings only)
         if (Array.isArray(rows[0].favorites)) {
-          for (const id of rows[0].favorites) state.favorites.add(id);
+          for (const key of rows[0].favorites) {
+            if (typeof key === 'string' && key.includes(':')) state.favorites.add(key);
+          }
           localStorage.setItem('mm_favorites', JSON.stringify([...state.favorites]));
         }
         // Merge seen — take max count per card
@@ -1596,10 +1598,29 @@
     }
 
     // ── FAVOURITES ────────────────────────────────────────────────────────────────
+    // Favorites are stored as compound keys "archetypeId:cardId" so that
+    // identical card IDs in different data files never collide.
+    function favKey(archetypeId, cardId) {
+      return archetypeId + ':' + cardId;
+    }
     function loadFavorites() {
       try {
         const arr = JSON.parse(localStorage.getItem('mm_favorites') || '[]');
-        state.favorites = new Set(arr);
+        // Migrate old format (bare numbers) → compound keys where unambiguous
+        if (arr.length > 0 && typeof arr[0] === 'number') {
+          const migrated = new Set();
+          for (const id of arr) {
+            // IDs 130–140 are unique to elon (innovative-entrepreneur)
+            if (id >= 130 && id <= 140) migrated.add(favKey('innovative-entrepreneur', id));
+            // IDs 141–399 are unique to charlie
+            else if (id >= 141 && id <= 399) migrated.add(favKey('charlie', id));
+            // IDs 1–129 are duplicated across elon/naval/dalio — cannot migrate safely, drop
+          }
+          state.favorites = migrated;
+          saveFavorites();
+        } else {
+          state.favorites = new Set(arr);
+        }
       } catch { state.favorites = new Set(); }
     }
     function saveFavorites() {
@@ -1624,28 +1645,37 @@
       return state.cardScores[cardId] || { correct: 0, wrong: 0 };
     }
     function getFavoriteCards() {
+      // Parse "archetypeId:cardId" keys so each card is fetched from its own archetype
       const cards = [];
-      for (const a of ARCHETYPES) {
-        for (const card of (state.loaded[a.id] || [])) {
-          if (state.favorites.has(card.id)) cards.push(card);
-        }
+      for (const key of state.favorites) {
+        const colon = key.indexOf(':');
+        if (colon === -1) continue;
+        const archetypeId = key.substring(0, colon);
+        const cardId      = Number(key.substring(colon + 1));
+        const archCards   = state.loaded[archetypeId] || [];
+        const card = archCards.find(c => c.id === cardId);
+        // Attach source archetype so toggleFavorite works correctly while studying favorites
+        if (card) cards.push(Object.assign({}, card, { _archetypeId: archetypeId }));
       }
       return cards;
+    }
+    function _favKeyForCard(card) {
+      // When studying the favorites deck the card carries _archetypeId; otherwise use currentId
+      const archetypeId = card._archetypeId || state.currentId;
+      return favKey(archetypeId, card.id);
     }
     function updateStarBtn() {
       const card = currentCard();
       const btn = document.getElementById('star-btn');
       if (!btn) return;
-      btn.classList.toggle('starred', !!card && state.favorites.has(card.id));
+      btn.classList.toggle('starred', !!card && state.favorites.has(_favKeyForCard(card)));
     }
     function toggleFavorite() {
       const card = currentCard();
       if (!card) return;
-      if (state.favorites.has(card.id)) {
-        state.favorites.delete(card.id);
-      } else {
-        state.favorites.add(card.id);
-      }
+      const key = _favKeyForCard(card);
+      if (state.favorites.has(key)) state.favorites.delete(key);
+      else                          state.favorites.add(key);
       saveFavorites();
       updateStarBtn();
     }
