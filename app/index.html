@@ -879,8 +879,10 @@
       padding: 10px 24px 4px;
       display: flex;
       justify-content: center;
+      align-items: center;
       cursor: grab;
       flex-shrink: 0;
+      position: relative;
     }
 
     .sheet-handle {
@@ -890,9 +892,35 @@
       border-radius: 2px;
     }
 
-    .sheet-header {
-      padding: 8px 24px 0;
-      flex-shrink: 0;
+    .sheet-copy-btn {
+      position: absolute;
+      right: 16px;
+      top: 50%;
+      transform: translateY(-50%);
+      background: var(--surface2);
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      width: 32px;
+      height: 32px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+      -webkit-tap-highlight-color: transparent;
+      transition: background 0.12s, color 0.12s;
+      color: var(--text2);
+    }
+
+    .sheet-copy-btn:active { background: var(--border); }
+
+    .sheet-copy-btn svg {
+      width: 15px;
+      height: 15px;
+      stroke: currentColor;
+      fill: none;
+      stroke-width: 1.8;
+      stroke-linecap: round;
+      stroke-linejoin: round;
     }
 
     .sheet-tag {
@@ -911,15 +939,23 @@
       line-height: 1.45;
     }
 
+    .sheet-question {
+      font-family: var(--serif);
+      font-size: 15px;
+      font-weight: 400;
+      line-height: 1.65;
+      color: var(--text);
+    }
+
     .sheet-divider {
       height: 1px;
       background: var(--border);
-      margin: 16px 24px;
+      margin: 18px 0;
       flex-shrink: 0;
     }
 
     .sheet-body {
-      padding: 0 24px;
+      padding: 4px 24px 16px;
       overflow-y: auto;
       flex: 1;
       -webkit-overflow-scrolling: touch;
@@ -1378,13 +1414,18 @@
   <div class="bottom-sheet" id="bottom-sheet">
     <div class="sheet-handle-area" id="sheet-handle-area">
       <div class="sheet-handle"></div>
+      <button class="sheet-copy-btn" id="sheet-copy-btn" aria-label="Copy card">
+        <svg viewBox="0 0 24 24"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg>
+      </button>
     </div>
-    <div class="sheet-header">
-      <div class="sheet-tag">Deep context</div>
-      <div class="sheet-title" id="sheet-title"></div>
-    </div>
-    <div class="sheet-divider"></div>
     <div class="sheet-body">
+      <div class="sheet-tag">Question</div>
+      <div class="sheet-question" id="sheet-question"></div>
+      <div class="sheet-divider"></div>
+      <div class="sheet-tag">Answer</div>
+      <div class="sheet-title" id="sheet-title"></div>
+      <div class="sheet-divider"></div>
+      <div class="sheet-tag">Deep context</div>
       <p id="sheet-body"></p>
     </div>
   </div>
@@ -2079,12 +2120,29 @@
 
     // ── BOTTOM SHEET ──────────────────────────────────────────────────────────────
     function openSheet(card) {
-      document.getElementById('sheet-title').textContent = card.short_answer || '';
-      document.getElementById('sheet-body').textContent = card.elaborated_answer || '';
+      document.getElementById('sheet-question').textContent = card.question || '';
+      document.getElementById('sheet-title').textContent   = card.short_answer || '';
+      document.getElementById('sheet-body').textContent    = card.elaborated_answer || '';
+      // Reset copy button icon
+      document.getElementById('sheet-copy-btn').innerHTML =
+        '<svg viewBox="0 0 24 24"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg>';
       document.getElementById('sheet-backdrop').classList.add('open');
       document.getElementById('bottom-sheet').classList.add('open');
-      // Reset scroll
       document.querySelector('.sheet-body').scrollTop = 0;
+    }
+
+    function copySheetCard() {
+      const q = document.getElementById('sheet-question').textContent;
+      const a = document.getElementById('sheet-title').textContent;
+      const d = document.getElementById('sheet-body').textContent;
+      const text = `Question\n${q}\n\nAnswer\n${a}\n\nDeep context\n${d}`;
+      const btn = document.getElementById('sheet-copy-btn');
+      navigator.clipboard.writeText(text).then(() => {
+        btn.innerHTML = '<svg viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"/></svg>';
+        setTimeout(() => {
+          btn.innerHTML = '<svg viewBox="0 0 24 24"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg>';
+        }, 1500);
+      }).catch(() => { prompt('Copy:', text); });
     }
 
     function closeSheet() {
@@ -2156,6 +2214,12 @@
     })();
 
     document.getElementById('sheet-backdrop').addEventListener('click', closeSheet);
+
+    // Copy button — stop propagation so it doesn't trigger sheet drag
+    const _copyBtn = document.getElementById('sheet-copy-btn');
+    _copyBtn.addEventListener('mousedown',  e => e.stopPropagation());
+    _copyBtn.addEventListener('touchstart', e => e.stopPropagation(), { passive: true });
+    _copyBtn.addEventListener('click',      e => { e.stopPropagation(); copySheetCard(); });
 
     // ── MODE PICKER HANDLERS ──────────────────────────────────────────────────────
     document.getElementById('mode-backdrop').addEventListener('click', closeModePicker);
